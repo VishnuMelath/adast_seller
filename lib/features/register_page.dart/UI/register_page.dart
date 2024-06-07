@@ -1,3 +1,4 @@
+import 'package:adast_seller/features/complete_profile/UI/complete_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -39,13 +40,12 @@ class _RegisterPageState extends State<RegisterPage> {
               bloc: registerBloc,
               listener: (context, state) {
                 if (state is RegisterSuccessState) {
-                  // Navigator.pushAndRemoveUntil(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const (),
-                  //   ),
-                  //   (route) => false,
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CompleteProfile(),
+                    ),
+                  );
                 }
                 if (state is RegisterErrorState) {
                   customSnackBar(context, state.errormsg);
@@ -59,7 +59,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     login: false,
                   ),
                   CustomTextfield(
-                      label: 'Name', controller: nameController, login: false),
+                      label: 'Shop Name',
+                      controller: nameController,
+                      login: false),
                   CustomTextfield(
                     label: 'Password',
                     controller: passwordController,
@@ -91,7 +93,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   nameController: nameController,
                                   passController: passwordController));
                             },
-                            text: 'Submit');
+                            text: 'Next');
                       }
                     },
                   )
