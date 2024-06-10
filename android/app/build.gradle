@@ -6,6 +6,8 @@ plugins {
     id "kotlin-android"
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
+
+    // id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 def localProperties = new Properties()
@@ -15,7 +17,8 @@ if (localPropertiesFile.exists()) {
         localProperties.load(reader)
     }
 }
-
+// def properties = new Properties()
+//     properties.load(project.rootDir.newInputStream('local.properties'))
 def flutterVersionCode = localProperties.getProperty("flutter.versionCode")
 if (flutterVersionCode == null) {
     flutterVersionCode = "1"
@@ -45,6 +48,7 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
+
     }
 
     buildTypes {
@@ -59,3 +63,7 @@ android {
 flutter {
     source = "../.."
 }
+
+
+
+

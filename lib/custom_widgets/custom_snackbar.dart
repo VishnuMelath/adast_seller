@@ -4,7 +4,9 @@ import '../ themes/colors_shemes.dart';
 
 ScaffoldFeatureController<SnackBar, SnackBarClosedReason> customSnackBar(BuildContext context,String message)
 {
-  return  ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+  return  ScaffoldMessenger.of(context).showSnackBar(
+    
+     SnackBar(
                   backgroundColor: green,
                     content: Text(message)));
 }

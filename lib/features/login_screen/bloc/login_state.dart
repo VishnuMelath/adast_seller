@@ -18,6 +18,8 @@ class LoginEmptyFieldState extends LoginActionState{}
  class LoginGoogleAuthenticationState extends LoginActionState{}
 
  class LoginForgotPassMailSuccesfullySentState extends LoginActionState{}
+
+ class LoginNavigateToCompleteProfileState extends LoginActionState{}
  
 
 

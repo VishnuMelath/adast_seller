@@ -52,7 +52,8 @@ class LoginService {
     }
   }
 
-  Future<void> signUpWithGoogle() async {
+  Future<(String?, bool)> signUpWithGoogle() async {
+    late AdditionalUserInfo? map;
     try {
       await GoogleSignIn().signOut();
       final GoogleSignInAccount? gSeller = await GoogleSignIn().signIn();
@@ -62,19 +63,22 @@ class LoginService {
           accessToken: gAuth.accessToken, idToken: gAuth.idToken);
 
       await _auth.signInWithCredential(credential).then((user) async {
-        var map = user.additionalUserInfo;
-        if (user.additionalUserInfo!.isNewUser) {
-          SellerModel sellerModel = SellerModel(
-              email: map!.profile?['email'],
-              name: map.profile?['given_name'],
-              image: map.profile?['picture']);
-          await DatabaseServices().addSeller(sellerModel);
-        }
-        log(user.credential.toString());
+        log(user.additionalUserInfo.toString());
+         map = user.additionalUserInfo;
+        
+        
       });
-    } catch (e) {
+    }on FirebaseException catch (e) {
       log(e.toString());
       rethrow;
+    
     }
+    if (map!.isNewUser) {
+         return (map!.profile?['email'].toString(),true);
+        }
+        else
+        {
+          return (map!.profile?['email'].toString(),false);
+        }
   }
 }

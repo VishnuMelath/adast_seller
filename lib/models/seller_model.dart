@@ -1,11 +1,12 @@
 import 'package:adast_seller/models/cloth_model.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 
 class SellerModel {
-  final String name;
-  final String email;
-  final String? image;
-  final LatLng? latLng;
+   String name;
+   String email;
+   String? image;
+   LatLng? latLng;
    List<ClothModel> items;
 
   SellerModel(
@@ -15,11 +16,13 @@ class SellerModel {
       required this.email,
       this.latLng});
 
-  Map<String, String?> toMap() {
+  Map<String, dynamic> toMap() {
     return {
       'emailaddress': email,
       'image': image,
       'name': name,
+      'latlng':latLng.toString(),
+      // 'items':items
     };
   }
 }

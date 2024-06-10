@@ -15,8 +15,12 @@ const Decoration greenbuttonDecoration=BoxDecoration(
 
 const TextStyle whiteTextStyle=TextStyle(color: Colors.white);
 
+const TextStyle whiteHeadTextStyle=TextStyle(color: Colors.white,fontWeight: FontWeight.w700,fontSize: 20);
+
 const TextStyle greyTextStyle=  TextStyle(color: Colors.black54);
 
 const TextStyle redTextStyle=  TextStyle(color: Colors.red,fontSize: 10);
 
 const TextStyle greenTextStyle=  TextStyle(color: green,fontWeight: FontWeight.w700);
+
+const TextStyle blackTextStyle=TextStyle(color: Colors.black,fontWeight: FontWeight.w700);

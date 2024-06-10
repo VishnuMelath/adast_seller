@@ -9,7 +9,15 @@ class ImageIconShowBottomSheetState extends ImageIconActionState{}
 
 final class ImageIconInitial extends ImageIconState {}
 
-class ImageIconChangedState extends ImageIconState{}
+class ImageIconChangedState extends ImageIconState{
+  final bool loading;
+  final String? imageUrl;
+
+  ImageIconChangedState({required this.imageUrl,required this.loading});
+
+}
+
+class ImagePickCompleteState extends ImageIconActionState{}
 
 class NoImageState extends ImageIconState{}
 

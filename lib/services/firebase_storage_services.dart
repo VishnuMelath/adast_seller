@@ -3,20 +3,26 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 
-class FirebaseStorageServices
-{
-  Future<String> uploadImageToFirebase(File imageFile,String email) async {
-  final storage = FirebaseStorage.instance;
-  final filename = '$email.jpg';
-  final reference = storage.ref().child('images/$filename');
-  final uploadTask = reference.putFile(imageFile);
+class FirebaseStorageServices {
+  Future<String?> uploadImageToFirebase(File imageFile, String email) async {
+    try {
+      final storage = FirebaseStorage.instance;
+      final filename =
+          '${email.split('@').first}.jpg';
+      log(filename);
+      final reference = storage.ref().child('profileImages/$filename');
+      final uploadTask = reference.putFile(imageFile);
 
-  uploadTask.snapshotEvents.listen((event) {
-    final progress = event.bytesTransferred / event.totalBytes * 100;
-    log('Upload progress: $progress%');
-  });
-  final snapshot = await uploadTask.whenComplete(() => null);
-  return await snapshot.ref.getDownloadURL();
-}
-
+      uploadTask.snapshotEvents.listen((event) {
+        final progress = event.bytesTransferred / event.totalBytes * 100;
+        log('Upload progress: $progress%');
+      });
+      final snapshot = await uploadTask.whenComplete(() => null);
+      return await snapshot.ref.getDownloadURL();
+    } on 
+    FirebaseException catch (e) {
+     log(e.toString());
+    }
+    return null;
+  }
 }

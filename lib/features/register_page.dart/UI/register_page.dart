@@ -1,4 +1,4 @@
-import 'package:adast_seller/features/complete_profile/UI/complete_profile.dart';
+import 'package:adast_seller/features/map/UI/map.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -43,7 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const CompleteProfile(),
+                      builder: (context) => const MapScreen(),
                     ),
                   );
                 }
@@ -58,10 +58,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     controller: emailController,
                     login: false,
                   ),
-                  CustomTextfield(
-                      label: 'Shop Name',
-                      controller: nameController,
-                      login: false),
                   CustomTextfield(
                     label: 'Password',
                     controller: passwordController,
