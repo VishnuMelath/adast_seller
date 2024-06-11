@@ -1,4 +1,6 @@
+import 'package:adast_seller/features/login_screen/bloc/login_bloc.dart';
 import 'package:adast_seller/features/map/UI/map.dart';
+import 'package:adast_seller/models/seller_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -83,6 +85,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       } else {
                         return CustomButton(
                             onTap: () {
+                              context.read<LoginBloc>().sellerModel=SellerModel(name: '', email: emailController.text);
                               registerBloc.add(RegisterButtonEvent(
                                   formkey: formkey,
                                   emailController: emailController,

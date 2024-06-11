@@ -20,15 +20,15 @@ class SplashscreenBloc extends Bloc<SplashscreenEvent, SplashscreenState> {
    await Future.delayed(
       const Duration(seconds: 3),
       () {
-         test = true;
+       
       },
     );
       if (test) {
           emit(SplashNavigatetoLoginState());
         } 
-        // else {
-        //   emit(SplashNavigateToHomeState());
-        // }
+        else {
+          emit(SplashNavigateToHomeState());
+        }
 
   }
 }

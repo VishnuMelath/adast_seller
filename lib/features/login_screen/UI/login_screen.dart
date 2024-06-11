@@ -1,4 +1,5 @@
 
+import 'package:adast_seller/features/drawer/UI/drawer.dart';
 import 'package:adast_seller/features/login_screen/UI/forgot_password.dart';
 import 'package:adast_seller/features/map/UI/map.dart';
 import 'package:flutter/material.dart';
@@ -44,8 +45,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 customSnackBar(context, 'invalid email or password');
               }
               if (state is LoginNavigateToHomeState) {
-                // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>const BottomNavbarScreen(),));
-                //todo navigate to home
+                context.read<LoginBloc>().sellerModel=state.sellerModel;
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>const DrawerPage(),));
+
               }
               if (state is LoginNavigateToCompleteProfileState) {
                 Navigator.push(

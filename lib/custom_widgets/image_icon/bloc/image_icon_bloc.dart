@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:adast_seller/custom_widgets/image_icon/methods/methods.dart';
 import 'package:adast_seller/services/firebase_storage_services.dart';
 import 'package:bloc/bloc.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:meta/meta.dart';
 
 part 'image_icon_event.dart';

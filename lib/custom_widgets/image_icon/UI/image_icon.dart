@@ -14,8 +14,7 @@ class ImageIconWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     ImageIconBloc imageIconBloc = context.read<ImageIconBloc>();
     String imageAddress = imagePath;
-    return BlocListener<ImageIconBloc, ImageIconState>(
-     
+    return BlocListener<ImageIconBloc, ImageIconState>( 
       listener: (context, state) {
         if (state is ImageIconShowBottomSheetState) {
           showModalBottomSheet(

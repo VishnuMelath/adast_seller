@@ -9,7 +9,12 @@ final class LoginInitial extends LoginState {}
 
 class LoginEmptyFieldState extends LoginActionState{}
 
- class LoginNavigateToHomeState extends LoginActionState{}
+ class LoginNavigateToHomeState extends LoginActionState{
+  final SellerModel sellerModel;
+
+  LoginNavigateToHomeState({required this.sellerModel});
+
+ }
 
  class LoginNavigateToRegisterState extends LoginActionState{}
 

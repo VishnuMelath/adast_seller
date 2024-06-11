@@ -22,33 +22,30 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<LoginBloc>(
-      create: (context) => LoginBloc(),
-      child: Scaffold(
-        body: BlocConsumer<SplashscreenBloc, SplashscreenState>(
-          bloc: splashscreenBloc,
-          builder: (context, state) {
-            switch (state.runtimeType) {
-              case const (SplashLoginCheckingState):
-                return Center(
-                  child: Image.asset('assets/images/logo.png'),
-                );
-              default:
-                return const SizedBox();
-            }
-          },
-          listener: (context, state) {
-            if (state.runtimeType == SplashNavigateToHomeState) {
-              // Navigator.push(context,MaterialPageRoute(builder: (context) =>const HomeScreen(),));
-            } else if (state.runtimeType == SplashNavigatetoLoginState) {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoginScreen(),
-                  ));
-            }
-          },
-        ),
+    return Scaffold(
+      body: BlocConsumer<SplashscreenBloc, SplashscreenState>(
+        bloc: splashscreenBloc,
+        builder: (context, state) {
+          switch (state.runtimeType) {
+            case const (SplashLoginCheckingState):
+              return Center(
+                child: Image.asset('assets/images/logo.png'),
+              );
+            default:
+              return const SizedBox();
+          }
+        },
+        listener: (context, state) {
+          if (state.runtimeType == SplashNavigateToHomeState) {
+            // Navigator.push(context,MaterialPageRoute(builder: (context) =>const HomeScreen(),));
+          } else if (state.runtimeType == SplashNavigatetoLoginState) {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const LoginScreen(),
+                ));
+          }
+        },
       ),
     );
   }

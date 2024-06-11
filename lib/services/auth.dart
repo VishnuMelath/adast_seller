@@ -8,11 +8,13 @@ import 'user_database_services.dart';
 class LoginService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<void> signInWithMailandPass(String email, String password) async {
+  Future<SellerModel> signInWithMailandPass(
+      String email, String password) async {
     try {
       var user = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      await DatabaseServices().getSellerData(user.user!.email!);
+      log(user.additionalUserInfo.toString());
+      return await DatabaseServices().getSellerData(user.user!.email!);
     } catch (e) {
       log(e.toString());
       rethrow;
@@ -43,6 +45,22 @@ class LoginService {
     }
   }
 
+  Future<SellerModel?> checkLogin() async {
+  try {
+    User? user= _auth.currentUser;
+    if(user==null)
+    {
+      return null;
+    }
+    else
+    {
+      return await DatabaseServices().getSellerData(user.email!);
+    }
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
   Future<void> resetPassword(String email) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
@@ -64,21 +82,16 @@ class LoginService {
 
       await _auth.signInWithCredential(credential).then((user) async {
         log(user.additionalUserInfo.toString());
-         map = user.additionalUserInfo;
-        
-        
+        map = user.additionalUserInfo;
       });
-    }on FirebaseException catch (e) {
+    } on FirebaseException catch (e) {
       log(e.toString());
       rethrow;
-    
     }
     if (map!.isNewUser) {
-         return (map!.profile?['email'].toString(),true);
-        }
-        else
-        {
-          return (map!.profile?['email'].toString(),false);
-        }
+      return (map!.profile?['email'].toString(), true);
+    } else {
+      return (map!.profile?['email'].toString(), false);
+    }
   }
 }

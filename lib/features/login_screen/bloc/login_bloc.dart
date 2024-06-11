@@ -25,9 +25,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (event.email.text.isEmpty || event.pass.text.isEmpty) {
       emit(LoginEmptyFieldState());
     } else {
-      await LoginService()
+     SellerModel sellerModel= await LoginService()
           .signInWithMailandPass(event.email.text, event.pass.text);
-      emit(LoginNavigateToHomeState());
+          log(sellerModel.name);
+      emit(LoginNavigateToHomeState(sellerModel: sellerModel));
     }
   }
 
@@ -42,7 +43,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     log(result.toString());
     if (!result.$2) {
       sellerModel = await DatabaseServices().getSellerData(result.$1!);
-      emit(LoginNavigateToHomeState());
+      emit(LoginNavigateToHomeState(sellerModel: sellerModel!
+      ));
     } else {
       sellerModel = SellerModel(email: result.$1!, name: '');
       emit(LoginNavigateToCompleteProfileState());
