@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:adast_seller/models/seller_model.dart';
 import 'package:adast_seller/services/user_database_services.dart';
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -38,7 +39,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
           {
             try
             {
-              var sellerModel=SellerModel(name: event.name, email: event.email,image: event.image,latLng: event.latLng);
+              GeoPoint geoPoint=GeoPoint(event.latLng.latitude, event.latLng.longitude);
+              var sellerModel=SellerModel(name: event.name, email: event.email,image: event.image,latLng: geoPoint);
              await DatabaseServices().addSeller(
                 sellerModel
               ).then((_) {

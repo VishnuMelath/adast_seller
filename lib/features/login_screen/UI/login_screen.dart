@@ -1,4 +1,4 @@
-
+import 'package:adast_seller/custom_widgets/google_button.dart';
 import 'package:adast_seller/features/drawer/UI/drawer.dart';
 import 'package:adast_seller/features/login_screen/UI/forgot_password.dart';
 import 'package:adast_seller/features/map/UI/map.dart';
@@ -21,15 +21,14 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
- late LoginBloc loginBloc ;
+  late LoginBloc loginBloc;
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController emailcontroller1 = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    loginBloc=context.read<LoginBloc>();
+    loginBloc = context.read<LoginBloc>();
     return Scaffold(
       body: Form(
         key: formkey,
@@ -44,16 +43,21 @@ class _LoginScreenState extends State<LoginScreen> {
               if (state is LoginInvalidUserIdOrPassState) {
                 customSnackBar(context, 'invalid email or password');
               }
-              if (state is LoginNavigateToHomeState) {
-                context.read<LoginBloc>().sellerModel=state.sellerModel;
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>const DrawerPage(),));
-
+              if(state is LoginErrorState)
+              {
+                customSnackBar(context,state.message);
               }
-              if (state is LoginNavigateToCompleteProfileState) {
-                Navigator.push(
+              if (state is LoginNavigateToHomeState) {
+                context.read<LoginBloc>().sellerModel = state.sellerModel;
+                Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const MapScreen()));
+                      builder: (context) => const DrawerPage(),
+                    ));
+              }
+              if (state is LoginNavigateToCompleteProfileState) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const MapScreen()));
               }
               if (state is LoginNavigateToRegisterState) {
                 Navigator.push(
@@ -62,8 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       builder: (context) => const RegisterPage(),
                     ));
               }
-              if (state is
-                  LoginForgotPassMailSuccesfullySentState) {
+              if (state is LoginForgotPassMailSuccesfullySentState) {
                 customSnackBar(context,
                     'Password reset mail successfully sent to your mail address');
                 Navigator.pop(context);
@@ -73,8 +76,8 @@ class _LoginScreenState extends State<LoginScreen> {
             child: ListView(
               children: [
                 Padding(
-                  padding: EdgeInsets.all(
-                      MediaQuery.of(context).size.height * 0.04),
+                  padding:
+                      EdgeInsets.all(MediaQuery.of(context).size.height * 0.04),
                   child: Center(
                       child: Image.asset(
                     'assets/images/logo.png',
@@ -82,12 +85,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   )),
                 ),
                 CustomTextfield(
-                  label: 'Email Address',
+                  label: 'email address',
                   controller: emailcontroller,
                   login: true,
                 ),
                 CustomTextfield(
-                  label: 'Password',
+                  label: 'password',
                   controller: passwordController,
                   password: true,
                   login: true,
@@ -100,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onTap: () {
                           forgotPasswordDialog(
                               context, emailcontroller1, loginBloc);
-                          //todo : forgot password
+
                         },
                         child: const Text(
                           'forgot password?',
@@ -111,13 +114,22 @@ class _LoginScreenState extends State<LoginScreen> {
                         )),
                   ),
                 ),
-                CustomButton(
-                  onTap: () {
-                    loginBloc.add(LoginButtonPressedEvent(
-                        email: emailcontroller, pass: passwordController));
-                    //todo login button action
+                BlocBuilder<LoginBloc, LoginState>(
+                  builder: (context, state) {
+                    bool loading=false;
+                    if(state is LoginButtonPressedState)
+                    {
+                      loading=true;
+                    }
+                    return CustomButton(
+                      loading: loading,
+                      onTap: () {
+                        loginBloc.add(LoginButtonPressedEvent(
+                            email: emailcontroller, pass: passwordController));
+                      },
+                      text: 'Login',
+                    );
                   },
-                  text: 'Login',
                 ),
                 Padding(
                   padding: EdgeInsets.only(
@@ -128,18 +140,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: const Row(
                     children: [
                       Expanded(child: Divider()),
-                      Text('  or sign up with  '),
+                      Text('  or  '),
                       Expanded(child: Divider()),
                     ],
                   ),
                 ),
-                CustomButton(
+                GoogleButton(
                   onTap: () {
                     loginBloc.add(LoginGoogleAuthPressedEvent());
-                    //todo validation google
                   },
-                  text: 'Google',
-                  icon: true,
+                  
                 ),
                 Center(
                   child: BlocListener(
@@ -155,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             //todo : register
                           },
                           child: const Text(
-                            'Sign up here',
+                            ' Sign up here',
                             style: greenTextStyle,
                           ),
                         )

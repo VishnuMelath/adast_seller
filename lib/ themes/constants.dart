@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 Map<String, IconData> icons = {
-  'Email Address': Icons.email,
-  'Password': Icons.lock_open,
-  'Name': Icons.person,
-  'Shop Name': Icons.business_sharp,
-  'Confirm Password': Icons.password,
+  'email address': Icons.email,
+  'password': Icons.lock_open,
+  'name': Icons.person,
+  'shop name': Icons.business_sharp,
+  'confirm password': Icons.password,
   'Personal Details': Icons.person,
   'My Reservations': Icons.lock_clock,
   'Saved': Icons.bookmark,

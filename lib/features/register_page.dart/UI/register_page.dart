@@ -56,19 +56,19 @@ class _RegisterPageState extends State<RegisterPage> {
               child: ListView(
                 children: [
                   CustomTextfield(
-                    label: 'Email Address',
+                    label: 'email address',
                     controller: emailController,
                     login: false,
                   ),
                   CustomTextfield(
-                    label: 'Password',
+                    label: 'password',
                     controller: passwordController,
                     login: false,
                     password: true,
                   ),
                   CustomTextfield(
                     passController: passwordController,
-                    label: 'Confirm Password',
+                    label: 'confirm password',
                     controller: rePasswordController,
                     login: false,
                     password: true,

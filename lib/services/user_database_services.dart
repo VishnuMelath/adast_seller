@@ -37,18 +37,5 @@ class DatabaseServices {
     }
   }
 
-  Future getSeller() async {
-    try {
-      final FirebaseAuth auth = FirebaseAuth.instance;
-      final user = auth.currentUser;
-      log(user?.email ?? 'no user');
-      if (user != null) {
-        return await getSellerData(user.email!);
-      } else {
-        return null;
-      }
-    } on Exception catch (e) {
-      log(e.toString());
-    }
-  }
+ 
 }

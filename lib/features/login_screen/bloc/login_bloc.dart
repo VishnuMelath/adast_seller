@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:adast_seller/models/seller_model.dart';
 import 'package:adast_seller/services/user_database_services.dart';
 import 'package:bloc/bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import '../../../services/auth.dart';
@@ -22,13 +23,18 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   FutureOr<void> loginButtonPressedEvent(
       LoginButtonPressedEvent event, Emitter<LoginState> emit) async {
+    emit(LoginButtonPressedState());
     if (event.email.text.isEmpty || event.pass.text.isEmpty) {
       emit(LoginEmptyFieldState());
     } else {
-     SellerModel sellerModel= await LoginService()
-          .signInWithMailandPass(event.email.text, event.pass.text);
-          log(sellerModel.name);
-      emit(LoginNavigateToHomeState(sellerModel: sellerModel));
+      try {
+        SellerModel sellerModel = await LoginService()
+            .signInWithMailandPass(event.email.text, event.pass.text);
+        log(sellerModel.name);
+        emit(LoginNavigateToHomeState(sellerModel: sellerModel));
+      } on FirebaseException catch (e) {
+        emit(LoginErrorState(message: e.code));
+      }
     }
   }
 
@@ -43,8 +49,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     log(result.toString());
     if (!result.$2) {
       sellerModel = await DatabaseServices().getSellerData(result.$1!);
-      emit(LoginNavigateToHomeState(sellerModel: sellerModel!
-      ));
+      emit(LoginNavigateToHomeState(sellerModel: sellerModel!));
     } else {
       sellerModel = SellerModel(email: result.$1!, name: '');
       emit(LoginNavigateToCompleteProfileState());

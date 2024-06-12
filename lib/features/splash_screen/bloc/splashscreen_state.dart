@@ -13,6 +13,11 @@ class SplashLoginCheckingErrorState extends SplashscreenState{}
 class SplashLoginCheckingSuccessState extends SplashscreenState{}
 
 class SplashNavigatetoLoginState extends SplashscreenActionState{}
-class SplashNavigateToHomeState extends SplashscreenActionState{}
+class SplashNavigateToHomeState extends SplashscreenActionState{
+ final SellerModel sellerModel;
+
+  SplashNavigateToHomeState({required this.sellerModel});
+
+}
 
 

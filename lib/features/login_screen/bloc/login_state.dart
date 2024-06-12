@@ -9,6 +9,8 @@ final class LoginInitial extends LoginState {}
 
 class LoginEmptyFieldState extends LoginActionState{}
 
+class LoginButtonPressedState extends LoginState{}
+
  class LoginNavigateToHomeState extends LoginActionState{
   final SellerModel sellerModel;
 
@@ -25,6 +27,11 @@ class LoginEmptyFieldState extends LoginActionState{}
  class LoginForgotPassMailSuccesfullySentState extends LoginActionState{}
 
  class LoginNavigateToCompleteProfileState extends LoginActionState{}
+
+ class LoginErrorState extends LoginActionState{
+  final String message;
+  LoginErrorState({required this.message});
+ }
  
 
 
