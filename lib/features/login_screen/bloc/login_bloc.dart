@@ -52,7 +52,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(LoginNavigateToHomeState(sellerModel: sellerModel!));
     } else {
       sellerModel = SellerModel(email: result.$1!, name: '');
-      emit(LoginNavigateToCompleteProfileState());
+      emit(LoginNavigateToCompleteProfileState(sellerModel: sellerModel!));
     }
   }
 

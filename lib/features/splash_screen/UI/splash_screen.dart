@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
         listener: (context, state) {
           if (state is SplashNavigateToHomeState) {
             context.read<LoginBloc>().sellerModel=state.sellerModel;
-            Navigator.push(context,MaterialPageRoute(builder: (context) =>const DrawerPage(),));
+            Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) =>const DrawerPage(),));
           } else if (state.runtimeType == SplashNavigatetoLoginState) {
             Navigator.pushReplacement(
                 context,

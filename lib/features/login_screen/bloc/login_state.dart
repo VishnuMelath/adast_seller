@@ -26,7 +26,11 @@ class LoginButtonPressedState extends LoginState{}
 
  class LoginForgotPassMailSuccesfullySentState extends LoginActionState{}
 
- class LoginNavigateToCompleteProfileState extends LoginActionState{}
+ class LoginNavigateToCompleteProfileState extends LoginActionState{
+  final SellerModel sellerModel;
+
+  LoginNavigateToCompleteProfileState({required this.sellerModel});
+ }
 
  class LoginErrorState extends LoginActionState{
   final String message;

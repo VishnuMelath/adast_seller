@@ -56,6 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ));
               }
               if (state is LoginNavigateToCompleteProfileState) {
+                context.read<LoginBloc>().sellerModel = state.sellerModel;
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const MapScreen()));
               }

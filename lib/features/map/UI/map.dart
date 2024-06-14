@@ -102,6 +102,7 @@ class _MapScreenState extends State<MapScreen> {
                         ),
                         CustomButton(
                             onTap: () async {
+                              
                               mapBloc.add(MapSavePressedEvent(
                                   formkey: formkey,
                                   name: nameController.text,

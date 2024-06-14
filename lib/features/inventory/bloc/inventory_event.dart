@@ -5,3 +5,9 @@ sealed class InventoryEvent {}
 
 class InventoryInitialEvent extends InventoryEvent{}
 
+class InventoryAddButtonPressedEvent extends InventoryEvent{}
+
+class InventoryPressedOnItemEvent extends InventoryEvent{}
+
+class InventorySearchPressedEvent extends InventoryEvent{}
+

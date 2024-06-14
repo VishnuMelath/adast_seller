@@ -1,12 +1,10 @@
-import 'package:flutter/material.dart';
 
 class ClothModel {
   final String name;
   final String description;
   final String category;
   final String fit;
-  final String size;
-  final Colors color;
+  final List<String> size;
   final List<String> images;
   final int totalPeices;
   final int reservedCount;
@@ -25,7 +23,6 @@ class ClothModel {
       required this.category,
       required this.fit,
       required this.size,
-      required this.color,
       required this.images,
       required this.totalPeices,
       this.reservedCount = 0,
@@ -37,4 +34,14 @@ class ClothModel {
       required this.metaTitle,
       required this.metaDescription,
       required this.maxReservable});
+
+      Map<String , dynamic> toMap()
+      {
+        return {
+          'name':name,
+          'description':description,
+          'category':category,
+          'fit':fit,
+        };
+      }
 }

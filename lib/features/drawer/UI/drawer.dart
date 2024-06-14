@@ -1,9 +1,11 @@
 import 'dart:developer';
 
 import 'package:adast_seller/%20themes/colors_shemes.dart';
+import 'package:adast_seller/%20themes/constants.dart';
 import 'package:adast_seller/%20themes/themes.dart';
 import 'package:adast_seller/custom_widgets/cutom_drawer_option.dart';
 import 'package:adast_seller/features/drawer/bloc/drawer_bloc.dart';
+import 'package:adast_seller/features/inventory/UI/inventory.dart';
 import 'package:adast_seller/features/login_screen/UI/login_screen.dart';
 import 'package:adast_seller/features/login_screen/bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
@@ -15,28 +17,26 @@ class DrawerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DrawerBloc drawerBloc = DrawerBloc();
-    List<Widget> options = [
-      customListTile(() {
-        log('Dashboard');
-      }, 'Dashboard'),
-      customListTile(() {
-        log('Inventory');
-      }, 'Inventory'),
-      customListTile(() {
-        log('Inventory');
-      }, 'Reservations'),
-      customListTile(() {
-        log('Inventory');
-      }, 'Inbox'),
-      customListTile(() {
-        log('Inventory');
-      }, 'Revenue'),
-      customListTile(() {
-        log('Inventory');
-      }, 'Settings'),
-    ];
+
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: BlocBuilder(
+          bloc: drawerBloc,
+          builder: (context, state) {
+            if (state is DrawerOptionState) {
+              return Text(
+                options[state.index],
+                style: greenTextStyle,
+              );
+            } else {
+              return Text(
+                options[0],
+                style: greenTextStyle,
+              );
+            }
+          },
+        ),
+      ),
       drawer: Drawer(
         child: BlocListener<DrawerBloc, DrawerState>(
           bloc: drawerBloc,
@@ -79,11 +79,16 @@ class DrawerPage extends StatelessWidget {
                   ],
                 ),
               ),
-              ...options,
+              ...List.generate(
+                6,
+                (index) => customListTile(() {
+                  Navigator.pop(context);
+                  drawerBloc.add(DrawerOptionTappedEvent(index: index));
+                }, options[index]),
+              ),
               TextButton(
                   onPressed: () {
                     drawerBloc.add(DrawerLogoutPressedEvent());
-                    
                   },
                   child: const Text(
                     'Logout',
@@ -92,6 +97,31 @@ class DrawerPage extends StatelessWidget {
             ],
           ),
         ),
+      ),
+      body: BlocBuilder(
+        bloc: drawerBloc,
+        builder: (context, state) {
+          if (state is DrawerOptionState) {
+            switch (state.index) {
+              case 0:
+                return const Center(child: Text('Dashboard'));
+              case 1:
+                return const InventoryPage();
+              case 2:
+                return const Center(child: Text('Reservations'));
+              case 3:
+                return const Center(child: Text('Inbox'));
+              case 4:
+                return const Center(child: Text('Revenue'));
+              case 5:
+                return const Center(child: Text('Settings'));
+              default:
+                return const Center(child: Text('Dashboard'));
+            }
+          } else {
+            return const Center(child: Text('Dashboard'));
+          }
+        },
       ),
     );
   }
