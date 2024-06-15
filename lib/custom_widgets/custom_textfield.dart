@@ -9,8 +9,10 @@ class CustomTextfield extends StatefulWidget {
   final bool password;
   final TextEditingController? passController;
   final int maxLines;
+  final bool number;
   const CustomTextfield({
     super.key,
+    this.number=false,
     this.login = false,
     this.password = false,
     required this.label,
@@ -43,6 +45,7 @@ class _CustomTextfieldState extends State<CustomTextfield> {
         borderRadius: BorderRadius.circular(15),
         elevation: elevation,
         child: TextFormField(
+          keyboardType: widget.number?TextInputType.number:TextInputType.text,
           maxLines: widget.maxLines,
           minLines: 1,
           autovalidateMode: widget.login||widget.passController!=null

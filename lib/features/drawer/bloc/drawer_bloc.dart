@@ -19,5 +19,6 @@ class DrawerBloc extends Bloc<DrawerEvent, DrawerState> {
 
   FutureOr<void> drawerOptionTappedEvent(DrawerOptionTappedEvent event, Emitter<DrawerState> emit) {
     emit(DrawerOptionState(index: event.index));
+
   }
 }

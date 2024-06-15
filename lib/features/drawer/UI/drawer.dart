@@ -25,12 +25,12 @@ class DrawerPage extends StatelessWidget {
           builder: (context, state) {
             if (state is DrawerOptionState) {
               return Text(
-                options[state.index],
+                drawerOptions[state.index],
                 style: greenTextStyle,
               );
             } else {
               return Text(
-                options[0],
+                drawerOptions[0],
                 style: greenTextStyle,
               );
             }
@@ -84,7 +84,7 @@ class DrawerPage extends StatelessWidget {
                 (index) => customListTile(() {
                   Navigator.pop(context);
                   drawerBloc.add(DrawerOptionTappedEvent(index: index));
-                }, options[index]),
+                }, drawerOptions[index]),
               ),
               TextButton(
                   onPressed: () {

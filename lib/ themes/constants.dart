@@ -28,6 +28,8 @@ Map<bool, Icon> eye = {
 const String imagePath =
     'https://firebasestorage.googleapis.com/v0/b/adast-425404.appspot.com/o/profileImages%2Fbusinessman.png?alt=media&token=1245ce78-22fa-43d1-b863-bad64a8dcab4';
 
-List<String> options = [
+List<String> drawerOptions = [
        'Dashboard', 'Inventory', 'Reservations', 'Inbox', 'Revenue', 'Settings'
     ];
+
+List<String> categoryOptios =['Shirt',];

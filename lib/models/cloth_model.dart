@@ -1,21 +1,20 @@
-
 class ClothModel {
-  final String name;
-  final String description;
-  final String category;
-  final String fit;
-  final List<String> size;
-  final List<String> images;
-  final int totalPeices;
-  final int reservedCount;
-  final int soldCount;
-  final String brand;
-  final String material;
-  final int price;
-  final String tags;
-  final String metaTitle;
-  final String metaDescription;
-  final int maxReservable;
+   String name;
+   String description;
+   String category;
+   String fit;
+   List<String> size;
+   List<String> images;
+   int totalPeices;
+   int reservedCount;
+   int soldCount;
+   String brand;
+   String material;
+   int price;
+   String tags;
+   String metaTitle;
+   String metaDescription;
+   int maxReservable;
 
   ClothModel(
       {required this.name,
@@ -35,13 +34,44 @@ class ClothModel {
       required this.metaDescription,
       required this.maxReservable});
 
-      Map<String , dynamic> toMap()
-      {
-        return {
-          'name':name,
-          'description':description,
-          'category':category,
-          'fit':fit,
-        };
-      }
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'description': description,
+      'category': category,
+      'fit': fit,
+      'size': size,
+      'images': images,
+      'totalPeices': totalPeices,
+      'reservedCount': reservedCount,
+      'soldCount': soldCount,
+      'brand': brand,
+      'material': material,
+      'price': price,
+      'tags': tags,
+      'metaTitle': metaTitle,
+      'metaDescription': metaDescription,
+      'maxReservabel': maxReservable
+    };
+  }
+
+  factory ClothModel.fromJson(Map<String, dynamic> map) {
+    return ClothModel(
+        name: map['name'],
+        brand: map['brand'],
+        category: map['category'],
+        description: map['description'],
+        fit: map['fit'],
+        images: map['images'],
+        material: map['material'],
+        maxReservable: map['maxReservable'],
+        metaDescription: map['metaDescription'],
+        metaTitle: map['metaTitle'],
+        price: map['price'],
+        size: map['size'],
+        tags: map['tags'],
+        totalPeices: map['totalPeices'],
+        reservedCount: map['reservedCount'],
+        soldCount: map['soldCount']);
+  }
 }
