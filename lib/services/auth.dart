@@ -14,7 +14,7 @@ class LoginService {
       var user = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       log(user.additionalUserInfo.toString());
-      return await DatabaseServices().getSellerData(user.user!.email!);
+      return await UserDatabaseServices().getSellerData(user.user!.email!);
     } catch (e) {
       log(e.toString());
       rethrow;
@@ -28,7 +28,7 @@ class LoginService {
           .then((value) {
         log(value.user!.photoURL ?? '');
       });
-      await DatabaseServices().addSeller(user);
+      await UserDatabaseServices().addSeller(user);
       return user;
     } catch (e) {
       log(e.toString());
@@ -54,7 +54,7 @@ class LoginService {
     }
     else
     {
-      return await DatabaseServices().getSellerData(user.email!);
+      return await UserDatabaseServices().getSellerData(user.email!);
     }
     } catch (e) {
       log(e.toString());
@@ -100,7 +100,7 @@ class LoginService {
       final user = auth.currentUser;
       log(user?.email ?? 'no user');
       if (user != null) {
-        return await DatabaseServices().getSellerData(user.email!);
+        return await UserDatabaseServices().getSellerData(user.email!);
       } else {
         return null;
       }

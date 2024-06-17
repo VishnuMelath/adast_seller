@@ -1,4 +1,5 @@
 class ClothModel {
+  String sellerID;
    String name;
    String description;
    String category;
@@ -17,7 +18,9 @@ class ClothModel {
    int maxReservable;
 
   ClothModel(
-      {required this.name,
+      {
+        required this.sellerID,
+        required this.name,
       required this.description,
       required this.category,
       required this.fit,
@@ -36,6 +39,7 @@ class ClothModel {
 
   Map<String, dynamic> toMap() {
     return {
+      'sellerID':sellerID,
       'name': name,
       'description': description,
       'category': category,
@@ -57,6 +61,7 @@ class ClothModel {
 
   factory ClothModel.fromJson(Map<String, dynamic> map) {
     return ClothModel(
+      sellerID: map['sellerID'],
         name: map['name'],
         brand: map['brand'],
         category: map['category'],

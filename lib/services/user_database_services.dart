@@ -1,11 +1,8 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
 import '../models/seller_model.dart';
 
-class DatabaseServices {
+class UserDatabaseServices {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   Future<void> addSeller(SellerModel user) async {

@@ -11,9 +11,14 @@ class InventoryBloc extends Bloc<InventoryEvent, InventoryState> {
   List<ClothModel> items=[];
   InventoryBloc() : super(InventoryInitial()) {
     on<InventoryInitialEvent>(inventoryInitialEvent);
+    on<InventoryAddButtonPressedEvent>(inventoryAddButtonPressedEvent);
   }
 
   FutureOr<void> inventoryInitialEvent(InventoryInitialEvent event, Emitter<InventoryState> emit) {
     emit(InventoryLoadingState());
+  }
+
+  FutureOr<void> inventoryAddButtonPressedEvent(InventoryAddButtonPressedEvent event, Emitter<InventoryState> emit) {
+    emit(InventoryNavigateToAddItemState());
   }
 }

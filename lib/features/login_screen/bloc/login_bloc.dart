@@ -28,10 +28,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(LoginEmptyFieldState());
     } else {
       try {
-        SellerModel sellerModel = await LoginService()
+         sellerModel = await LoginService()
             .signInWithMailandPass(event.email.text, event.pass.text);
-        log(sellerModel.name);
-        emit(LoginNavigateToHomeState(sellerModel: sellerModel));
+        log(sellerModel?.name??'hello');
+        emit(LoginNavigateToHomeState(sellerModel: sellerModel!));
       } on FirebaseException catch (e) {
         emit(LoginErrorState(message: e.code));
       }
@@ -48,7 +48,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     var result = await LoginService().signUpWithGoogle();
     log(result.toString());
     if (!result.$2) {
-      sellerModel = await DatabaseServices().getSellerData(result.$1!);
+      sellerModel = await UserDatabaseServices().getSellerData(result.$1!);
       emit(LoginNavigateToHomeState(sellerModel: sellerModel!));
     } else {
       sellerModel = SellerModel(email: result.$1!, name: '');

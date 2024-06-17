@@ -41,7 +41,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
             {
               GeoPoint geoPoint=GeoPoint(event.latLng.latitude, event.latLng.longitude);
               var sellerModel=SellerModel(name: event.name, email: event.email,image: event.image,latLng: geoPoint);
-             await DatabaseServices().addSeller(
+             await UserDatabaseServices().addSeller(
                 sellerModel
               ).then((_) {
                 log('success');

@@ -29,7 +29,7 @@ class ImageIconBloc extends Bloc<ImageIconEvent, ImageIconState> {
     if (image != null) {
       emit(ImageIconChangedState(imageUrl: null, loading: true));
       await FirebaseStorageServices()
-          .uploadImageToFirebase(File(image), event.email);
+          .uploadImageToFirebase(File(image),'profileImages');
       emit(ImageIconChangedState(imageUrl: image, loading: false));
     }
   }
@@ -41,7 +41,7 @@ class ImageIconBloc extends Bloc<ImageIconEvent, ImageIconState> {
     if (image != null) {
       emit(ImageIconChangedState(imageUrl: null, loading: true));
       image = await FirebaseStorageServices()
-          .uploadImageToFirebase(File(image), event.email);
+          .uploadImageToFirebase(File(image),'profileImages');
       if (image != null) {
         imageUrl = image;
         emit(ImageIconChangedState(imageUrl: image, loading: false));

@@ -1,3 +1,5 @@
+import 'package:adast_seller/%20themes/colors_shemes.dart';
+import 'package:adast_seller/features/add_update_item/UI/add_update_item.dart';
 import 'package:adast_seller/features/login_screen/bloc/login_bloc.dart';
 import 'package:adast_seller/features/splash_screen/UI/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(seedColor: green),
           useMaterial3: true,
         ),
         home: const SplashScreen(),

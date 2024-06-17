@@ -4,13 +4,13 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class FirebaseStorageServices {
-  Future<String?> uploadImageToFirebase(File imageFile, String email) async {
+  Future<String?> uploadImageToFirebase(File imageFile,String path) async {
     try {
       final storage = FirebaseStorage.instance;
-      final filename =
-          '${email.split('@').first}.jpg';
-      log(filename);
-      final reference = storage.ref().child('profileImages/$filename');
+      // final filename =
+      //     '${email.split('@').first}.jpg';
+      // log(filename);
+      final reference = storage.ref().child('$path/');
       final uploadTask = reference.putFile(imageFile);
 
       uploadTask.snapshotEvents.listen((event) {
