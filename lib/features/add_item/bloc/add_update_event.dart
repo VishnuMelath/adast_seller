@@ -1,9 +1,9 @@
 part of 'add_update_bloc.dart';
 
 @immutable
-sealed class AddUpdateEvent {}
+sealed class AddEvent {}
 
-class SaveButtonPressedEvent extends AddUpdateEvent{
+class SaveButtonPressedEvent extends AddEvent{
   final GlobalKey<FormState> formkey ;
 
   SaveButtonPressedEvent({required this.formkey});

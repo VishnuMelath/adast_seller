@@ -1,5 +1,5 @@
 import 'package:adast_seller/%20themes/colors_shemes.dart';
-import 'package:adast_seller/features/add_update_item/UI/add_update_item.dart';
+import 'package:adast_seller/features/add_item/UI/add_item.dart';
 import 'package:adast_seller/features/login_screen/bloc/login_bloc.dart';
 import 'package:adast_seller/features/splash_screen/UI/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -23,12 +23,15 @@ class MyApp extends StatelessWidget {
     return BlocProvider<LoginBloc>(
       create: (context) => LoginBloc(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
+          
+          appBarTheme: const AppBarTheme(iconTheme: IconThemeData(color: green)),
           colorScheme: ColorScheme.fromSeed(seedColor: green),
           useMaterial3: true,
         ),
-        home: const SplashScreen(),
+        home: const AddItem(),
       ),
     );
   }

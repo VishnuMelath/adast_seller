@@ -6,10 +6,13 @@ import 'package:adast_seller/%20themes/themes.dart';
 import 'package:adast_seller/custom_widgets/cutom_drawer_option.dart';
 import 'package:adast_seller/features/drawer/bloc/drawer_bloc.dart';
 import 'package:adast_seller/features/inventory/UI/inventory.dart';
+import 'package:adast_seller/features/inventory/bloc/inventory_bloc.dart';
 import 'package:adast_seller/features/login_screen/UI/login_screen.dart';
 import 'package:adast_seller/features/login_screen/bloc/login_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 class DrawerPage extends StatelessWidget {
   const DrawerPage({super.key});
@@ -65,9 +68,27 @@ class DrawerPage extends StatelessWidget {
                         top: 38.0,
                       ),
                       child: CircleAvatar(
-                          radius: 40,
-                          backgroundImage: NetworkImage(
-                              context.watch<LoginBloc>().sellerModel!.image!)),
+                        radius: 60,
+                        child: ClipOval(
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                context.watch<LoginBloc>().sellerModel!.image!,
+                            fit: BoxFit.cover, // Fills the circle
+                             placeholder: (context, url) => Shimmer.fromColors(
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: green,
+                        child: Container(
+                          color: Colors.grey[300],
+                          height: 200,
+                        ),
+                      ),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
+                          ),
+                        ),
+                      ),
+
+                    
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -106,7 +127,10 @@ class DrawerPage extends StatelessWidget {
               case 0:
                 return const Center(child: Text('Dashboard'));
               case 1:
-                return const InventoryPage();
+                return BlocProvider(
+                  create: (context) => InventoryBloc(),
+                  child: const InventoryPage(),
+                );
               case 2:
                 return const Center(child: Text('Reservations'));
               case 3:

@@ -6,12 +6,13 @@ class CustomTextfield2 extends StatefulWidget {
   final TextEditingController controller;
   final int maxLines;
   final bool number;
+  final Function(String)? onChanged;
   const CustomTextfield2(
       {super.key,
       this.number = false,
       required this.label,
       required this.controller,
-      this.maxLines = 1});
+      this.maxLines = 1, this.onChanged});
 
   @override
   State<CustomTextfield2> createState() => _CustomTextfield2State();
@@ -38,6 +39,7 @@ class _CustomTextfield2State extends State<CustomTextfield2> {
             minLines: widget.maxLines,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             controller: widget.controller,
+            onChanged: widget.onChanged,
             decoration: const InputDecoration( 
                 labelStyle: TextStyle(fontSize: 12),
                 contentPadding:

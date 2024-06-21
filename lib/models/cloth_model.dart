@@ -1,13 +1,15 @@
+import 'dart:developer';
+
 class ClothModel {
+  String? id;
   String sellerID;
    String name;
    String description;
    String category;
    String fit;
-   List<String> size;
+   Map<String,dynamic> size;
    List<String> images;
-   int totalPeices;
-   int reservedCount;
+    Map<String,dynamic> reservedCount;
    int soldCount;
    String brand;
    String material;
@@ -15,10 +17,11 @@ class ClothModel {
    String tags;
    String metaTitle;
    String metaDescription;
-   int maxReservable;
+  
 
   ClothModel(
       {
+      this.id,
         required this.sellerID,
         required this.name,
       required this.description,
@@ -26,16 +29,14 @@ class ClothModel {
       required this.fit,
       required this.size,
       required this.images,
-      required this.totalPeices,
-      this.reservedCount = 0,
+      this.reservedCount =const{},
       this.soldCount = 0,
       required this.brand,
       required this.material,
       required this.price,
       required this.tags,
       required this.metaTitle,
-      required this.metaDescription,
-      required this.maxReservable});
+      required this.metaDescription,});
 
   Map<String, dynamic> toMap() {
     return {
@@ -46,7 +47,6 @@ class ClothModel {
       'fit': fit,
       'size': size,
       'images': images,
-      'totalPeices': totalPeices,
       'reservedCount': reservedCount,
       'soldCount': soldCount,
       'brand': brand,
@@ -55,27 +55,26 @@ class ClothModel {
       'tags': tags,
       'metaTitle': metaTitle,
       'metaDescription': metaDescription,
-      'maxReservabel': maxReservable
     };
   }
 
-  factory ClothModel.fromJson(Map<String, dynamic> map) {
+  factory ClothModel.fromJson(Map<String, dynamic> map,String id) {
+    log(map['size'].toString());
     return ClothModel(
+      id:id,
       sellerID: map['sellerID'],
         name: map['name'],
         brand: map['brand'],
         category: map['category'],
         description: map['description'],
         fit: map['fit'],
-        images: map['images'],
+        images: map['images'] ,
         material: map['material'],
-        maxReservable: map['maxReservable'],
         metaDescription: map['metaDescription'],
         metaTitle: map['metaTitle'],
         price: map['price'],
         size: map['size'],
         tags: map['tags'],
-        totalPeices: map['totalPeices'],
         reservedCount: map['reservedCount'],
         soldCount: map['soldCount']);
   }

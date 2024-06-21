@@ -10,8 +10,10 @@ class CustomTextfield extends StatefulWidget {
   final TextEditingController? passController;
   final int maxLines;
   final bool number;
+  final bool search;
   const CustomTextfield({
     super.key,
+    this.search=false,
     this.number=false,
     this.login = false,
     this.password = false,
@@ -39,7 +41,7 @@ class _CustomTextfieldState extends State<CustomTextfield> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        top: MediaQuery.of(context).size.height * 0.03,
+        top:widget.search? MediaQuery.of(context).size.height * 0.01: MediaQuery.of(context).size.height * 0.03,
       ),
       child: Material(
         borderRadius: BorderRadius.circular(15),
@@ -48,7 +50,7 @@ class _CustomTextfieldState extends State<CustomTextfield> {
           keyboardType: widget.number?TextInputType.number:TextInputType.text,
           maxLines: widget.maxLines,
           minLines: 1,
-          autovalidateMode: widget.login||widget.passController!=null
+          autovalidateMode:widget.search||widget.login||widget.passController!=null
               ? AutovalidateMode.disabled
               : AutovalidateMode.onUserInteraction,
           controller: widget.controller,

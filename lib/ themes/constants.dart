@@ -18,6 +18,7 @@ Map<String, IconData> icons = {
   'Reservations': Icons.book,
   'Inbox': Icons.message,
   'Revenue': Icons.attach_money,
+  'Search':Icons.search
 };
 
 Map<bool, Icon> eye = {

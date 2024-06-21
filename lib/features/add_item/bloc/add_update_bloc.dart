@@ -6,7 +6,7 @@ import 'dart:io';
 import 'package:adast_seller/models/cloth_model.dart';
 import 'package:adast_seller/services/firebase_storage_services.dart';
 import 'package:adast_seller/services/item_database_services.dart';
-import 'package:adast_seller/services/network_check.dart';
+import 'package:adast_seller/methods/network_check.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +14,14 @@ import 'package:flutter/material.dart';
 part 'add_update_event.dart';
 part 'add_update_state.dart';
 
-class AddUpdateBloc extends Bloc<AddUpdateEvent, AddUpdateState> {
+class AddBloc extends Bloc<AddEvent, AddState> {
   late ClothModel clothModel;
-  AddUpdateBloc() : super(AddUpdateInitial()) {
+  AddBloc() : super(AddInitial()) {
     on<SaveButtonPressedEvent>(saveButtonPressedEvent);
   }
 
   FutureOr<void> saveButtonPressedEvent(
-      SaveButtonPressedEvent event, Emitter<AddUpdateState> emit) async {
+      SaveButtonPressedEvent event, Emitter<AddState> emit) async {
     emit(SaveButtonPressedState());
     if (!await hasNetwork()) {
       emit(NetworkErrorState());
@@ -30,8 +30,21 @@ class AddUpdateBloc extends Bloc<AddUpdateEvent, AddUpdateState> {
         clothModel.category == '' ||
         clothModel.fit == '' ||
         clothModel.size.isEmpty) {
-      emit(AddUpdateNotCompletedState(message: 'Please fill all field'));
+      emit(AddNotCompletedState(message: 'Please fill all field'));
     } else {
+      bool flag = false;
+      clothModel.size.forEach(
+        (key, value) {
+          if (value[0] < value[1]) {
+            flag = true;
+          }
+        },
+      );
+      if (flag) {
+        emit(AddNotCompletedState(
+            message: 'Reservable count cannot be larger than total count'));
+        return;
+      }
       List<String> images = [];
       for (var element in clothModel.images) {
         try {

@@ -9,7 +9,8 @@ abstract class InventoryActionState extends InventoryState{}
 
 class InventoryLoadingState extends InventoryState{}
 
-class InventoryLoadedState extends InventoryState{}
+class InventoryLoadedState extends InventoryState{
+}
 
 class InventorySearchInitiatedState extends InventoryState{}
 

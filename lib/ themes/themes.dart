@@ -24,3 +24,5 @@ const TextStyle redTextStyle=  TextStyle(color: Colors.red,fontSize: 10);
 const TextStyle greenTextStyle=  TextStyle(color: green,fontWeight: FontWeight.w700);
 
 const TextStyle blackTextStyle=TextStyle(color: Colors.black,fontWeight: FontWeight.w700);
+
+const TextStyle largeBlackTextStyle=TextStyle(color: Colors.black,fontWeight: FontWeight.w700,fontSize: 25);

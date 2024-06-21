@@ -4,13 +4,11 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class FirebaseStorageServices {
-  Future<String?> uploadImageToFirebase(File imageFile,String path) async {
+  Future<String?> uploadImageToFirebase(File imageFile, String path) async {
     try {
       final storage = FirebaseStorage.instance;
-      // final filename =
-      //     '${email.split('@').first}.jpg';
-      // log(filename);
-      final reference = storage.ref().child('$path/');
+      final filename = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+      final reference = storage.ref().child('$path/$filename');
       final uploadTask = reference.putFile(imageFile);
 
       uploadTask.snapshotEvents.listen((event) {
@@ -19,10 +17,30 @@ class FirebaseStorageServices {
       });
       final snapshot = await uploadTask.whenComplete(() => null);
       return await snapshot.ref.getDownloadURL();
-    } on 
-    FirebaseException catch (e) {
-     log(e.toString());
+    } on FirebaseException catch (e) {
+      log(e.toString());
+      rethrow;
     }
-    return null;
+  }
+
+  Future<void> deleteImageFromUrl(String downloadUrl) async {
+    try {
+      final storageRef = getStorageReferenceFromUrl(downloadUrl);
+      await storageRef.delete();
+      log('Image deleted successfully!');
+    } catch (error) {
+      log('Error deleting image: $error');
+      rethrow;
+    }
+  }
+
+  Reference getStorageReferenceFromUrl(String downloadUrl) {
+    final Uri uri = Uri.parse(downloadUrl);
+    log(uri.path);
+    var list = uri.path.split('/');
+    var test = list.last;
+   test= test.replaceFirst('%2F', '/');
+    log(test);
+    return FirebaseStorage.instance.ref().child(test);
   }
 }
