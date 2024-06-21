@@ -35,23 +35,29 @@ class AddItem extends StatelessWidget {
     TextEditingController metaDescriptionController = TextEditingController(text: clothModel?.metaDescription);
     TextEditingController materialController = TextEditingController(text: clothModel?.material);
 
-    String category = '';
-    String fit = '';
-    List<String> sizes = [];
+    String category = clothModel?.category??'';
+    String fit = clothModel?.fit??'';
 
     //blocs
     ItemimageaddBloc itemimageaddBloc = ItemimageaddBloc();
     AddBloc addUpdateBloc = AddBloc();
     MultiDdBloc multiDdBloc = MultiDdBloc();
+    if(clothModel?.size!=null)
+    {
+      multiDdBloc.countMap=clothModel?.size??{};
+    }
 
   
-      itemimageaddBloc.images =clothModel?.images??[];
+      if(clothModel?.images!=null)
+      {
+        itemimageaddBloc.images =clothModel?.images ??[];
+      }
     
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Add Item',
+        title:  Text(
+          clothModel==null?'Add Item':'Update Item',
           style: greenTextStyle,
         ),
       ),
@@ -70,8 +76,9 @@ class AddItem extends StatelessWidget {
                   maxLines: 4,
                 ),
                 CustomDropDown(
+      
                   items: categoryOptios,
-                  selectedValue: '',
+                  selectedValue:  clothModel?.category??'',
                   label: 'category',
                   onChanged: (value) {
                     if (value != null) {
@@ -81,7 +88,7 @@ class AddItem extends StatelessWidget {
                 ),
                 CustomDropDown(
                     items: fits,
-                    selectedValue: '',
+                    selectedValue: clothModel?.fit??'',
                     onChanged: (value) {
                       if (value != null) {
                         fit = value;
@@ -94,17 +101,13 @@ class AddItem extends StatelessWidget {
                 ),
                 CustmMultiselectionDropdownT(
                   onOptionRemoved: (index, values) {
-                    log(index.toString());
-                    sizes.remove(values.label);
+
                     multiDdBloc.add(MultiDdUnSelectedEvent(size: values.label));
                   },
-                    onOptionSelected: (values) {
-                      sizes = values.map(
-                        (e) {
-                          return e.value!;
-                        },
-                      ).toList();
-                      multiDdBloc.add(MultiDdSelectedEvent(sized: sizes));
+                    onOptionSelected: 
+                    
+                    (values) {
+                      multiDdBloc.add(MultiDdSelectedEvent(sized: values.map((e) => e.label,).toList()));
                     },
                     multiDdBloc: multiDdBloc),
               
@@ -146,22 +149,23 @@ class AddItem extends StatelessWidget {
                     } else {
                       return CustomButton(
                         onTap: () {
-                          addUpdateBloc.clothModel = ClothModel(
-                              sellerID:
-                                  context.read<LoginBloc>().sellerModel!.email,
-                              name: nameController.text,
-                              description: descriptionController.text,
-                              category: category,
-                              fit: fit,
-                              size: multiDdBloc.countMap,
-                              images: itemimageaddBloc.images,
-                              brand: brandController.text,
-                              material: materialController.text,
-                              price: int.parse(priceController.text),
-                              tags: tagsController.text,
-                              metaTitle: metaTitleController.text,
-                              metaDescription: metaDescriptionController.text,
-                    );
+                       
+                            
+                              addUpdateBloc.clothModel.sellerID=
+                                  context.read<LoginBloc>().sellerModel!.email;
+                              addUpdateBloc.clothModel.name= nameController.text;
+                              addUpdateBloc.clothModel.description= descriptionController.text;
+                              addUpdateBloc.clothModel.category= category;
+                              addUpdateBloc.clothModel.fit=fit;
+                             addUpdateBloc.clothModel. size= multiDdBloc.countMap;
+                              addUpdateBloc.clothModel.images= itemimageaddBloc.images;
+                             addUpdateBloc.clothModel. brand= brandController.text;
+                             addUpdateBloc.clothModel.material= materialController.text;
+                              addUpdateBloc.clothModel.price= int.parse(priceController.text);
+                              addUpdateBloc.clothModel.tags= tagsController.text;
+                              addUpdateBloc.clothModel.metaTitle= metaTitleController.text;
+                              addUpdateBloc.clothModel.metaDescription= metaDescriptionController.text;
+                    
                           addUpdateBloc
                               .add(SaveButtonPressedEvent(formkey: formkey));
                         },

@@ -8,7 +8,7 @@ class ClothModel {
    String category;
    String fit;
    Map<String,dynamic> size;
-   List<String> images;
+   List images;
     Map<String,dynamic> reservedCount;
    int soldCount;
    String brand;

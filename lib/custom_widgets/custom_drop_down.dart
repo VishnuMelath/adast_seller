@@ -22,6 +22,7 @@ class CustomDropDown extends StatelessWidget {
         children: [
           Text(label,style:const TextStyle(fontWeight: FontWeight.w600),),
           DropdownMenu<String>(
+            initialSelection: selectedValue,
             menuHeight: MediaQuery.of(context).size.height*0.88,
             width: MediaQuery.of(context).size.width*0.88,
               hintText: 'select',

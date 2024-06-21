@@ -4,3 +4,10 @@ part of 'item_details_bloc.dart';
 sealed class ItemDetailsState {}
 
 final class ItemDetailsInitial extends ItemDetailsState {}
+
+class ItemDetailsChangedState extends ItemDetailsState{
+  final ClothModel item;
+
+  ItemDetailsChangedState({required this.item});
+
+}

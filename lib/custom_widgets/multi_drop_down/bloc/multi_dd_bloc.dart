@@ -7,7 +7,7 @@ part 'multi_dd_event.dart';
 part 'multi_dd_state.dart';
 
 class MultiDdBloc extends Bloc<MultiDdEvent, MultiDdState> {
-  final  Map<String, List<int>> countMap={};
+    Map<String, dynamic> countMap={};
   MultiDdBloc() : super(MultiDdInitial()) {
     on<MultiDdSelectedEvent>(multiDdSelectedEvent);
      on<MultiDdUnSelectedEvent>(multiDdUnSelectedEvent);

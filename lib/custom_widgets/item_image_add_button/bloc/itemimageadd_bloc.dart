@@ -14,7 +14,7 @@ part 'itemimageadd_event.dart';
 part 'itemimageadd_state.dart';
 
 class ItemimageaddBloc extends Bloc<ItemimageaddEvent, ItemimageaddState> {
-  List<String> images = [];
+  List images = [];
   ItemimageaddBloc() : super(ItemimageaddInitial()) {
     on<ItemImagesAddPressedEvent>(itemImagesAddPressedEvent);
     on<ItemImageRemoveEvent>(itemImageRemoveEvent);

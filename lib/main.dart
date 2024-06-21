@@ -1,5 +1,4 @@
 import 'package:adast_seller/%20themes/colors_shemes.dart';
-import 'package:adast_seller/features/add_item/UI/add_item.dart';
 import 'package:adast_seller/features/login_screen/bloc/login_bloc.dart';
 import 'package:adast_seller/features/splash_screen/UI/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +30,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: green),
           useMaterial3: true,
         ),
-        home: const AddItem(),
+        home: const SplashScreen(),
       ),
     );
   }

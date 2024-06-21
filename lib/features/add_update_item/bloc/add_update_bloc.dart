@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
-import 'dart:ffi';
-import 'dart:io';
+
 
 import 'package:adast_seller/models/cloth_model.dart';
-import 'package:adast_seller/services/firebase_storage_services.dart';
 import 'package:adast_seller/services/item_database_services.dart';
 import 'package:adast_seller/methods/network_check.dart';
 import 'package:bloc/bloc.dart';
@@ -45,19 +43,16 @@ class AddBloc extends Bloc<AddEvent, AddState> {
             message: 'Reservable count cannot be larger than total count'));
         return;
       }
-      List<String> images = [];
-      for (var element in clothModel.images) {
-        try {
-          var image = await FirebaseStorageServices()
-              .uploadImageToFirebase(File(element), 'item');
-          images.add(image!);
-        } on FirebaseException catch (e) {
-          log(e.code);
-        }
-      }
-      clothModel.images = images;
       try {
-        await ItemDatabaseServices().addItem(clothModel);
+        log(clothModel.toMap().toString());
+        if(clothModel.id==null)
+        {
+          await ItemDatabaseServices().addItem(clothModel);
+        }
+        else{
+          await ItemDatabaseServices().updateItem(clothModel);
+        }
+        
         log('success');
         emit(AddUpadateSavedSuccessState());
       } on FirebaseException catch (e) {

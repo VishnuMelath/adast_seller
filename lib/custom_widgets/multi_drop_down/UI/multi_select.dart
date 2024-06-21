@@ -11,8 +11,8 @@ import '../../../ themes/constants.dart';
 import '../../../ themes/themes.dart';
 
 class CustmMultiselectionDropdownT extends StatelessWidget {
-  final Function(List<ValueItem<String>>) onOptionSelected;
-  final Function(int, ValueItem<String>) onOptionRemoved;
+  final Function(List<ValueItem<Object?>>) onOptionSelected;
+  final Function(int, ValueItem<Object?>) onOptionRemoved;
   final MultiDdBloc multiDdBloc;
 
   const CustmMultiselectionDropdownT(
@@ -31,6 +31,15 @@ class CustmMultiselectionDropdownT extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
         MultiSelectDropDown(
+            selectedOptions: multiDdBloc.countMap.keys
+                .map(
+                  (e) => ValueItem(label: e, value: e),
+                )
+                .toList(),
+            clearIcon: const Icon(
+              Icons.arrow_circle_down_sharp,
+              size: 0,
+            ),
             borderWidth: .5,
             borderColor: Colors.black,
             fieldBackgroundColor: Colors.transparent,
@@ -46,7 +55,6 @@ class CustmMultiselectionDropdownT extends StatelessWidget {
         BlocBuilder(
           bloc: multiDdBloc,
           builder: (context, state) {
-            log(state.runtimeType.toString());
             if (state is MultiDdOptionChangedState) {
               List<Widget> widgets = [];
               multiDdBloc.countMap.forEach(
@@ -82,7 +90,8 @@ class CustmMultiselectionDropdownT extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
                           child: CustomTextfield2(
                             label: 'Stock quatitiy',
-                            controller: TextEditingController(),
+                            controller: TextEditingController(
+                                text: value[0].toString()),
                             onChanged: (value) {
                               multiDdBloc.countMap[key]![0] = int.parse(value);
                             },
@@ -92,7 +101,8 @@ class CustmMultiselectionDropdownT extends StatelessWidget {
                       Expanded(
                           child: CustomTextfield2(
                               label: 'Reservable',
-                              controller: TextEditingController(),
+                              controller: TextEditingController(
+                                  text: value[1].toString()),
                               onChanged: (value) {
                                 multiDdBloc.countMap[key]![1] =
                                     int.parse(value);
@@ -104,59 +114,63 @@ class CustmMultiselectionDropdownT extends StatelessWidget {
               return Column(
                   mainAxisSize: MainAxisSize.min, children: [...widgets]);
             } else {
-              if (multiDdBloc.countMap.isEmpty) {
-                return const SizedBox();
-              } else {
-                List<Widget> widgets = [];
-                multiDdBloc.countMap.forEach(
-                  (key, value) {
-                    widgets.add(
-                      Row(
+              List<Widget> widgets = [];
+              multiDdBloc.countMap.forEach(
+                (key, value) {
+                  widgets.add(Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
+                          const Text(
+                            'Size',
+                            style: blackTextStyle,
+                          ),
                           Container(
-                            margin: const EdgeInsets.only(top: 10),
-                            width: 100,
-                            height: 100,
+                            // margin:const EdgeInsets.only(top: 10),
+                            width: 52,
+                            height: 52,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 color: green),
-                            child: Text(
-                              key,
-                              style: whiteHeadTextStyle,
-                            ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15.0),
-                              child: CustomTextfield2(
-                                label: 'Stock quatitiy',
-                                controller: TextEditingController(),
-                                onChanged: (value) {
-                                  multiDdBloc.countMap[key]![0] =
-                                      int.parse(value);
-                                },
+                            child: Center(
+                              child: Text(
+                                key,
+                                style: whiteHeadTextStyle,
                               ),
                             ),
                           ),
-                          Expanded(
-                              child: CustomTextfield2(
-                                  label: 'Reservable',
-                                  controller: TextEditingController(),
-                                  onChanged: (value) {
-                                    multiDdBloc.countMap[key]![1] =
-                                        int.parse(value);
-                                  }))
                         ],
                       ),
-                    );
-                  },
-                );
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [...widgets],
-                );
-              }
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: CustomTextfield2(
+                            label: 'Stock quatitiy',
+                            controller: TextEditingController(
+                                text: value[0].toString()),
+                            onChanged: (value) {
+                              multiDdBloc.countMap[key]![0] = int.parse(value);
+                            },
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                          child: CustomTextfield2(
+                              label: 'Reservable',
+                              controller: TextEditingController(
+                                  text: value[1].toString()),
+                              onChanged: (value) {
+                                multiDdBloc.countMap[key]![1] =
+                                    int.parse(value);
+                              }))
+                    ],
+                  ));
+                },
+              );
+              return Column(
+                  mainAxisSize: MainAxisSize.min, children: [...widgets]);
             }
           },
         )
