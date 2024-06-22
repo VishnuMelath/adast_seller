@@ -1,14 +1,15 @@
 import 'dart:developer';
 
-import 'package:adast_seller/custom_widgets/custom_textfield2.dart';
-import 'package:adast_seller/custom_widgets/multi_drop_down/bloc/multi_dd_bloc.dart';
+import 'package:adast_seller/custom_widgets/custom_snackbar.dart';
+import 'package:adast_seller/features/add_update_item/UI/widgets/custom_textfield2.dart';
+import 'package:adast_seller/features/drawer/UI/widgets/multi_drop_down/bloc/multi_dd_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 
-import '../../../ themes/colors_shemes.dart';
-import '../../../ themes/constants.dart';
-import '../../../ themes/themes.dart';
+import '../../../../../../ themes/colors_shemes.dart';
+import '../../../../../../ themes/constants.dart';
+import '../../../../../../ themes/themes.dart';
 
 class CustmMultiselectionDropdownT extends StatelessWidget {
   final Function(List<ValueItem<Object?>>) onOptionSelected;
@@ -59,6 +60,10 @@ class CustmMultiselectionDropdownT extends StatelessWidget {
               List<Widget> widgets = [];
               multiDdBloc.countMap.forEach(
                 (key, value) {
+                  TextEditingController controller0 =
+                      TextEditingController(text: value[0].toString());
+                  TextEditingController controller1 =
+                      TextEditingController(text: value[1].toString());
                   widgets.add(Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -89,23 +94,56 @@ class CustmMultiselectionDropdownT extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
                           child: CustomTextfield2(
+                            validator: (value) {
+                              try {
+                                int.parse(value!);
+                                return null;
+                              } catch (e) {
+                                return 'enter a valid number';
+                              }
+                              
+                           
+                            },
                             label: 'Stock quatitiy',
-                            controller: TextEditingController(
-                                text: value[0].toString()),
+                            controller: controller0,
                             onChanged: (value) {
-                              multiDdBloc.countMap[key]![0] = int.parse(value);
+                              try {
+                                multiDdBloc.countMap[key]![0] =
+                                    int.parse(value);
+                              } catch (e) {
+                                multiDdBloc.countMap[key]![0] = 0;
+                              }
+                              if (int.parse(controller1.text) >
+                                  int.parse(controller0.text)) {
+                               customSnackBar(context, 'reservable cannot be greater than quantity');
+                              }
                             },
                           ),
                         ),
                       ),
                       Expanded(
                           child: CustomTextfield2(
+                              validator: (value) {
+                                try {
+                                  int.parse(value!);
+                                  return null;
+                                } catch (e) {
+                                  return 'enter a valid number';
+                                }
+                              },
                               label: 'Reservable',
-                              controller: TextEditingController(
-                                  text: value[1].toString()),
+                              controller: controller1,
                               onChanged: (value) {
-                                multiDdBloc.countMap[key]![1] =
-                                    int.parse(value);
+                                try {
+                                  multiDdBloc.countMap[key]![1] =
+                                      int.parse(value);
+                                } catch (_) {
+                                  multiDdBloc.countMap[key]![1] = 0;
+                                }
+                                if (int.parse(controller1.text) >
+                                  int.parse(controller0.text)) {
+                               customSnackBar(context, 'reservable cannot be greater than quantity');
+                              }
                               }))
                     ],
                   ));

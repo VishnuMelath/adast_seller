@@ -1,4 +1,4 @@
-import 'package:adast_seller/custom_widgets/google_button.dart';
+import 'package:adast_seller/features/login_screen/UI/widgets/google_button.dart';
 import 'package:adast_seller/features/drawer/UI/drawer.dart';
 import 'package:adast_seller/features/login_screen/UI/forgot_password.dart';
 import 'package:adast_seller/features/map/UI/map.dart';
@@ -9,7 +9,7 @@ import '../../../ themes/colors_shemes.dart';
 import '../../../ themes/themes.dart';
 import '../../../custom_widgets/custom_button.dart';
 import '../../../custom_widgets/custom_snackbar.dart';
-import '../../../custom_widgets/custom_textfield.dart';
+import '../../add_update_item/UI/widgets/custom_textfield.dart';
 import '../../register_page.dart/UI/register_page.dart';
 import '../bloc/login_bloc.dart';
 

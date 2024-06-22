@@ -11,3 +11,5 @@ class ItemDetailsChangedState extends ItemDetailsState{
   ItemDetailsChangedState({required this.item});
 
 }
+
+class ItemDetailsSizeChangedState extends ItemDetailsState{}

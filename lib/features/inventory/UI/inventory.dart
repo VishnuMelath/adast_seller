@@ -1,7 +1,7 @@
 import 'package:adast_seller/%20themes/colors_shemes.dart';
 import 'package:adast_seller/%20themes/themes.dart';
-import 'package:adast_seller/custom_widgets/custom_grid.dart';
-import 'package:adast_seller/custom_widgets/custom_textfield.dart';
+import 'package:adast_seller/features/inventory/UI/widgets/custom_grid.dart';
+import 'package:adast_seller/features/add_update_item/UI/widgets/custom_textfield.dart';
 import 'package:adast_seller/features/add_update_item/UI/add_update_item.dart';
 import 'package:adast_seller/features/inventory/bloc/inventory_bloc.dart';
 import 'package:adast_seller/features/item_detail_page/UI/item_detail.dart';

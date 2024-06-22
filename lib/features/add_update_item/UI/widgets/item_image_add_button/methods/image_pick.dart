@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../ themes/colors_shemes.dart';
+import '../../../../../../ themes/colors_shemes.dart';
 
 Future<List<String>> pickMultiImage() async {
   var images = await ImagePicker().pickMultiImage();

@@ -10,7 +10,7 @@ class ClothModel {
    Map<String,dynamic> size;
    List images;
     Map<String,dynamic> reservedCount;
-   int soldCount;
+   Map<String, dynamic> soldCount ;
    String brand;
    String material;
    int price;
@@ -30,7 +30,7 @@ class ClothModel {
       required this.size,
       required this.images,
       this.reservedCount =const{},
-      this.soldCount = 0,
+      this.soldCount = const{},
       required this.brand,
       required this.material,
       required this.price,

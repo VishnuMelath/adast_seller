@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../ themes/themes.dart';
 import '../../../custom_widgets/custom_button.dart';
 import '../../../custom_widgets/custom_snackbar.dart';
-import '../../../custom_widgets/custom_textfield.dart';
+import '../../add_update_item/UI/widgets/custom_textfield.dart';
 import '../bloc/register_bloc.dart';
 
 class RegisterPage extends StatefulWidget {

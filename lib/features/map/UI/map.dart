@@ -4,7 +4,7 @@ import 'package:adast_seller/%20themes/colors_shemes.dart';
 import 'package:adast_seller/%20themes/themes.dart';
 import 'package:adast_seller/custom_widgets/custom_button.dart';
 import 'package:adast_seller/custom_widgets/custom_snackbar.dart';
-import 'package:adast_seller/custom_widgets/custom_textfield.dart';
+import 'package:adast_seller/features/add_update_item/UI/widgets/custom_textfield.dart';
 import 'package:adast_seller/custom_widgets/image_icon/UI/image_icon.dart';
 import 'package:adast_seller/custom_widgets/image_icon/bloc/image_icon_bloc.dart';
 import 'package:adast_seller/features/drawer/UI/drawer.dart';

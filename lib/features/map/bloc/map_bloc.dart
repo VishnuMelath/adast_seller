@@ -5,12 +5,10 @@ import 'package:adast_seller/models/seller_model.dart';
 import 'package:adast_seller/services/user_database_services.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:meta/meta.dart';
 
 part 'map_event.dart';
 part 'map_state.dart';

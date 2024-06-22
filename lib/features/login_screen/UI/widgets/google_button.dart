@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../ themes/colors_shemes.dart';
 
 class GoogleButton extends StatelessWidget {
   final Function() onTap;

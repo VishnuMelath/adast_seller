@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:adast_seller/models/seller_model.dart';
 import 'package:adast_seller/services/auth.dart';
-import 'package:adast_seller/services/user_database_services.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 

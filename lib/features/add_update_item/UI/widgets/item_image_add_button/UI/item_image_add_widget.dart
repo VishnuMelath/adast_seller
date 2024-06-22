@@ -1,4 +1,4 @@
-import 'package:adast_seller/custom_widgets/item_image_add_button/UI/custom_shimmer.dart';
+import 'package:adast_seller/features/add_update_item/UI/widgets/item_image_add_button/UI/custom_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

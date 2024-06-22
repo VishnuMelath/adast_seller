@@ -4,11 +4,12 @@ import 'dart:developer';
 
 import 'package:adast_seller/%20themes/colors_shemes.dart';
 import 'package:adast_seller/%20themes/themes.dart';
-import 'package:adast_seller/custom_widgets/resizable_container.dart';
+import 'package:adast_seller/features/item_detail_page/UI/widgets/resizable_container.dart';
 import 'package:adast_seller/features/add_update_item/UI/add_update_item.dart';
 import 'package:adast_seller/features/item_detail_page/bloc/item_details_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -59,11 +60,11 @@ class ItemDetails extends StatelessWidget {
                     child: PageView.builder(
                       itemCount: itemDetailsBloc.item.images.length,
                       itemBuilder: (context, index) {
-                        return SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height,
+                        return Align(
+                          alignment: Alignment.topCenter,
                           child: CachedNetworkImage(
-                            fit: BoxFit.cover,
+                            width:  MediaQuery.of(context).size.width,
+                            fit: BoxFit.fitWidth,
                             imageUrl: itemDetailsBloc.item.images[index],
                             placeholder: (context, url) => Shimmer.fromColors(
                               baseColor: Colors.grey[300]!,
@@ -80,7 +81,9 @@ class ItemDetails extends StatelessWidget {
                       },
                     ),
                   ),
-                  const ResizableContainer(),
+                   ResizableContainer(
+                    minHeight: MediaQuery.of(context).size.height*.3,
+                  ),
                   Positioned(
                     top: 0,
                     left: 0,
