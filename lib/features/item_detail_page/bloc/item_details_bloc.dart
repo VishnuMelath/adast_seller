@@ -9,9 +9,8 @@ part 'item_details_state.dart';
 
 class ItemDetailsBloc extends Bloc<ItemDetailsEvent, ItemDetailsState> {
   ClothModel item;
-  late String selectedSize;
+   String? selectedSize;
   ItemDetailsBloc({required this.item}) : super(ItemDetailsInitial()) {
-    selectedSize = item.size.keys.first;
     on<ItemDetailsChangedEvent>(itemDetailChangedEvent);
     on<ItemDetailsSizeChangedEvent>(itemDetailsSizeChangedEvent);
   }
@@ -23,7 +22,14 @@ class ItemDetailsBloc extends Bloc<ItemDetailsEvent, ItemDetailsState> {
 
   FutureOr<void> itemDetailsSizeChangedEvent(
       ItemDetailsSizeChangedEvent event, Emitter<ItemDetailsState> emit) {
-    selectedSize = event.size;
+        if(event.size==selectedSize)
+        {
+          selectedSize=null;
+        }
+        else{
+          selectedSize = event.size;
+        }
+    
     emit(ItemDetailsSizeChangedState());
   }
 }

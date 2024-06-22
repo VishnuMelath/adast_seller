@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:adast_seller/%20themes/colors_shemes.dart';
 import 'package:adast_seller/%20themes/themes.dart';
 import 'package:adast_seller/features/item_detail_page/UI/widgets/show_dialog_delete.dart';
+import 'package:adast_seller/features/item_detail_page/UI/widgets/size_widget.dart';
 import 'package:adast_seller/features/item_detail_page/bloc/item_details_bloc.dart';
 import 'package:adast_seller/methods/common_methods.dart';
 import 'package:adast_seller/services/item_database_services.dart';
@@ -38,15 +39,41 @@ class _ResizableContainerState extends State<ResizableContainer> {
     ItemDetailsBloc itemDetailsBloc = BlocProvider.of(context);
     return BlocBuilder<ItemDetailsBloc, ItemDetailsState>(
       builder: (context, state) {
+        late int reservedCount;
+        late int itemsLeft;
+  log('message');
+        if (itemDetailsBloc.selectedSize == null) {
+          reservedCount = itemDetailsBloc.item.reservedCount.values.fold<int>(
+            0,
+            (s, e) {
+              return s +( e[1]?? 0) as int;
+            },
+          );
+          itemsLeft = itemDetailsBloc.item.size.values.fold<int>(
+                0,
+                (s, e) {
+                  return s + e[0] as int;
+                },
+              ) -
+              (itemDetailsBloc.item.soldCount
+                      .containsKey(itemDetailsBloc.selectedSize)
+                  ? itemDetailsBloc.item.soldCount[itemDetailsBloc.selectedSize]
+                      as int
+                  : 0);
+        } else {
+          reservedCount = itemDetailsBloc
+                  .item.reservedCount[itemDetailsBloc.selectedSize] ??
+              0;
+              itemsLeft=itemDetailsBloc.item.size[itemDetailsBloc.selectedSize][0]-(itemDetailsBloc.item.soldCount[itemDetailsBloc.selectedSize]??0);
+        }
         log(itemDetailsBloc.item.toMap().toString());
         return Container(
           width: double.infinity,
           height: currentHeight,
           decoration: const BoxDecoration(
-              color:white,
+              color: white,
               borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30))),
+                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -62,16 +89,16 @@ class _ResizableContainerState extends State<ResizableContainer> {
                         color: Colors.transparent,
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                              vertical: 8.0,
-                              horizontal: MediaQuery.of(context).size.width * 0.3),
+                              vertical: 3.0,
+                              horizontal:
+                                  MediaQuery.of(context).size.width * 0.3),
                           child: Container(
                             padding: const EdgeInsets.all(5),
-                            width: 80,
-                            height: 10,
+                            width: 60,
+                            height: 8,
                             decoration: BoxDecoration(
-                                color: green,
+                                color: grey.withOpacity(0.4),
                                 borderRadius: BorderRadius.circular(10)),
-                                                  
                           ),
                         ),
                       ),
@@ -85,7 +112,7 @@ class _ResizableContainerState extends State<ResizableContainer> {
                             vertical: 8, horizontal: 15),
                         decoration: greenBoxDecoration,
                         child: Text(
-                          '${itemDetailsBloc.item.reservedCount[itemDetailsBloc.selectedSize] ?? 0} reserved',
+                          '$reservedCount reserved',
                           style: whiteTextStyle,
                         ),
                       ),
@@ -94,7 +121,7 @@ class _ResizableContainerState extends State<ResizableContainer> {
                             vertical: 8, horizontal: 15),
                         decoration: greenBoxDecoration,
                         child: Text(
-                          '${itemDetailsBloc.item.size[itemDetailsBloc.selectedSize][0] - (itemDetailsBloc.item.soldCount[itemDetailsBloc.selectedSize] ?? 0)} left',
+                          '$itemsLeft left',
                           style: whiteTextStyle,
                         ),
                       )
@@ -126,9 +153,15 @@ class _ResizableContainerState extends State<ResizableContainer> {
                           icon: const Icon(Icons.delete))
                     ],
                   ),
-                  Text(itemDetailsBloc.item.description,style: greyTextStyle,),
-                 const Text('size',style: mediumBlackTextStyle,)
-                  
+                  Text(
+                    itemDetailsBloc.item.description,
+                    style: greyTextStyle,
+                  ),
+                  const Text(
+                    'size',
+                    style: mediumBlackTextStyle,
+                  ),
+                  SizeWidget(itemDetailsBloc: itemDetailsBloc)
                 ],
               ),
             ),

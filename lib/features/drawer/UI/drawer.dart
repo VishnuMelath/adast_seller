@@ -66,7 +66,8 @@ class DrawerPage extends StatelessWidget {
                       padding: const EdgeInsets.only(
                         top: 38.0,
                       ),
-                      child: CircleAvatar(
+                      child:
+                       CircleAvatar(
                         radius: 60,
                         child: ClipOval(
                           child: CachedNetworkImage(
