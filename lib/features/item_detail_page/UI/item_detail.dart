@@ -62,20 +62,23 @@ class ItemDetails extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return Align(
                           alignment: Alignment.topCenter,
-                          child: CachedNetworkImage(
-                            width:  MediaQuery.of(context).size.width,
-                            fit: BoxFit.fitWidth,
-                            imageUrl: itemDetailsBloc.item.images[index],
-                            placeholder: (context, url) => Shimmer.fromColors(
-                              baseColor: Colors.grey[300]!,
-                              highlightColor: Colors.grey[100]!,
-                              child: Container(
-                                color: Colors.grey[300],
-                                height: 200,
+                          child: InteractiveViewer(
+
+                            child: CachedNetworkImage(
+                              width:  MediaQuery.of(context).size.width,
+                              fit: BoxFit.fitWidth,
+                              imageUrl: itemDetailsBloc.item.images[index],
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: Colors.grey[300]!,
+                                highlightColor: Colors.grey[100]!,
+                                child: Container(
+                                  color: green,
+                                  height: 200,
+                                ),
                               ),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
                             ),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
                           ),
                         );
                       },
