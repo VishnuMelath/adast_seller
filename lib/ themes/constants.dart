@@ -12,7 +12,7 @@ Map<String, IconData> icons = {
   'Settings': Icons.settings,
   'Camera': Icons.camera,
   'Gallery': Icons.image,
-  'Address': Icons.location_pin,
+  'Place': Icons.location_pin,
   'Dashboard': Icons.dashboard,
   'Inventory': Icons.inventory_sharp,
   'Reservations': Icons.book,
@@ -38,30 +38,47 @@ List<String> drawerOptions = [
   'Settings'
 ];
 
-List<String> categoryOptios = [
-  'Activewear',
-  'Blouses',
-  'Chino Pants',
-  'Dresses',
-  'Dress Pants',
-  'Hoodies',
-  'Jeans',
-  'Joggers',
-  'Jumpsuits',
-  'Leggings',
-  'Outerwear',
-  'Polos',
-  'Rompers',
-  'Shirts',
-  'Shorts',
-  'Skirts',
-  'Sleepwear',
-  'Sweaters',
-  'Tank Tops',
-  'T-shirts'
-  ,'Others'
-];
+Set<String> categoryOptios = {
+  'activewear',
+  'blouses',
+  'chino Pants',
+  'dresses',
+  'dress Pants',
+  'hoodies',
+  'jeans',
+  'joggers',
+  'jumpsuits',
+  'leggings',
+  'outerwear',
+  'polos',
+  'rompers',
+  'shirts',
+  'shorts',
+  'skirts',
+  'sleepwear',
+  'sweaters',
+  'tank tops',
+  'tshirts'
+  ,'others'
+};
 
 List<String> fits=['regular','oversized','slimfit'];
 
 List<String> sizes=['XS', 'S', 'M', 'L', 'XL','XXL'];
+
+Map<int, String> month = {
+  1: 'jan',
+  2: 'feb',
+  3: 'march',
+  4: 'april',
+  5: 'may',
+  6: "june",
+  7: 'july',
+  8: 'aug',
+  9: 'sept',
+  10: 'oct',
+  11: 'nov',
+  12: 'dec'
+};
+
+List<String> fabric=['Chiffon','Corduroy','Cotton Blend','Cotton Lycra','Cotton Silk','Crepe','Denim','Georgette','Hemp','Linen Blend','Liva','Lycra Blend','Lyocell','Modal','Net/Lace','Nylon','PolySilk','Poly Viscose','Polycotton','Polyester','Pure Cotton','Pure Linen','Pure silk','Satin','Silk Blend','Viscose Rayon','Wool Blend'];

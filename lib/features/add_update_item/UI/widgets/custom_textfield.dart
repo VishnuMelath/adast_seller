@@ -1,3 +1,4 @@
+import 'package:adast_seller/%20themes/colors_shemes.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../ themes/constants.dart';
@@ -11,12 +12,15 @@ class CustomTextfield extends StatefulWidget {
   final int maxLines;
   final bool number;
   final bool search;
+  final void Function(String)? onChanged;
+
   const CustomTextfield({
     super.key,
     this.search=false,
     this.number=false,
     this.login = false,
     this.password = false,
+    this.onChanged,
     required this.label,
     required this.controller,
     this.passController,
@@ -44,9 +48,12 @@ class _CustomTextfieldState extends State<CustomTextfield> {
         top:widget.search? MediaQuery.of(context).size.height * 0.01: MediaQuery.of(context).size.height * 0.03,
       ),
       child: Material(
+        // color: greentransparent,
         borderRadius: BorderRadius.circular(15),
         elevation: elevation,
         child: TextFormField(
+          
+          onChanged: widget.onChanged,
           keyboardType: widget.number?TextInputType.number:TextInputType.text,
           maxLines: widget.maxLines,
           minLines: 1,
@@ -56,6 +63,7 @@ class _CustomTextfieldState extends State<CustomTextfield> {
           controller: widget.controller,
           obscureText: show,
           decoration: InputDecoration(
+            fillColor: backgroundColor,
               suffixIcon: Visibility(
                   visible: widget.password&&widget.passController==null,
                   child: IconButton(

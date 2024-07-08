@@ -29,7 +29,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
+        title:  Text(
           'REGISTER',
           style: greenTextStyle,
         ),
@@ -85,7 +85,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       } else {
                         return CustomButton(
                             onTap: () {
-                              context.read<LoginBloc>().sellerModel=SellerModel(name: '', email: emailController.text);
+                              context.read<LoginBloc>().sellerModel=SellerModel(place: '',name: '', email: emailController.text);
                               registerBloc.add(RegisterButtonEvent(
                                   formkey: formkey,
                                   emailController: emailController,

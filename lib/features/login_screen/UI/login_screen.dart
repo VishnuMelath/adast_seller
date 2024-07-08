@@ -165,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             loginBloc.add(LoginRegisterPressedEvent());
                             //todo : register
                           },
-                          child: const Text(
+                          child:  Text(
                             ' Sign up here',
                             style: greenTextStyle,
                           ),

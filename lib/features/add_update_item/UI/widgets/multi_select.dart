@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:adast_seller/custom_widgets/custom_snackbar.dart';
 import 'package:adast_seller/features/add_update_item/UI/widgets/custom_textfield2.dart';
@@ -7,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 
-import '../../../../../../ themes/colors_shemes.dart';
-import '../../../../../../ themes/constants.dart';
-import '../../../../../../ themes/themes.dart';
+import '../../../../ themes/colors_shemes.dart';
+import '../../../../ themes/constants.dart';
+import '../../../../ themes/themes.dart';
 
 class CustmMultiselectionDropdownT extends StatelessWidget {
   final Function(List<ValueItem<Object?>>) onOptionSelected;
@@ -70,7 +69,7 @@ class CustmMultiselectionDropdownT extends StatelessWidget {
                       Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Text(
+                           Text(
                             'Size',
                             style: blackTextStyle,
                           ),
@@ -99,7 +98,7 @@ class CustmMultiselectionDropdownT extends StatelessWidget {
                                 int.parse(value!);
                                 return null;
                               } catch (e) {
-                                return 'enter a valid number';
+                                return;
                               }
                               
                            
@@ -128,7 +127,7 @@ class CustmMultiselectionDropdownT extends StatelessWidget {
                                   int.parse(value!);
                                   return null;
                                 } catch (e) {
-                                  return 'enter a valid number';
+                                  return;
                                 }
                               },
                               label: 'Reservable',
@@ -156,12 +155,13 @@ class CustmMultiselectionDropdownT extends StatelessWidget {
               multiDdBloc.countMap.forEach(
                 (key, value) {
                   widgets.add(Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Text(
+                           Text(
                             'Size',
                             style: blackTextStyle,
                           ),
@@ -185,6 +185,9 @@ class CustmMultiselectionDropdownT extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
                           child: CustomTextfield2(
+                            validator: (p0) {
+                              return;
+                            },
                             label: 'Stock quatitiy',
                             controller: TextEditingController(
                                 text: value[0].toString()),
@@ -196,6 +199,9 @@ class CustmMultiselectionDropdownT extends StatelessWidget {
                       ),
                       Expanded(
                           child: CustomTextfield2(
+                            validator: (p0) {
+                              return;
+                            },
                               label: 'Reservable',
                               controller: TextEditingController(
                                   text: value[1].toString()),
@@ -217,24 +223,3 @@ class CustmMultiselectionDropdownT extends StatelessWidget {
   }
 }
 
-// countMap.isEmpty?
-          
-          //    const SizedBox():
-         
-          //   List<Widget> widgets=[];
-          //   widget.countMap.forEach((key, value) {
-          //     widgets.add(Row(
-          //       children: [
-          //         Container(
-          //           decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: green),
-          //           child: Text(key,style: whiteHeadTextStyle,),
-          //         )
-          //       ],
-          //     ));
-          //   },);
-          //   return Column(
-          //     mainAxisSize: MainAxisSize.min,
-          //     children: [
-          //      ...widgets
-          //     ]
-          //   );

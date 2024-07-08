@@ -1,11 +1,14 @@
+
 import 'package:adast_seller/%20themes/constants.dart';
 import 'package:adast_seller/%20themes/themes.dart';
 import 'package:adast_seller/custom_widgets/custom_button.dart';
+import 'package:adast_seller/features/add_update_item/UI/widgets/category_widget/UI/category.dart';
+import 'package:adast_seller/features/add_update_item/UI/widgets/category_widget/bloc/category_bloc.dart';
 import 'package:adast_seller/features/add_update_item/UI/widgets/custom_drop_down.dart';
 import 'package:adast_seller/custom_widgets/custom_snackbar.dart';
 import 'package:adast_seller/features/add_update_item/UI/widgets/item_image_add_button/UI/item_image_add_widget.dart';
 import 'package:adast_seller/features/add_update_item/UI/widgets/item_image_add_button/bloc/itemimageadd_bloc.dart';
-import 'package:adast_seller/features/drawer/UI/widgets/multi_drop_down/UI/multi_select.dart';
+import 'package:adast_seller/features/add_update_item/UI/widgets/multi_select.dart';
 import 'package:adast_seller/features/drawer/UI/widgets/multi_drop_down/bloc/multi_dd_bloc.dart';
 import 'package:adast_seller/features/login_screen/bloc/login_bloc.dart';
 import 'package:adast_seller/models/cloth_model.dart';
@@ -40,6 +43,8 @@ class AddItem extends StatelessWidget {
         TextEditingController(text: clothModel?.metaDescription);
     TextEditingController materialController =
         TextEditingController(text: clothModel?.material);
+    TextEditingController categoryController =
+        TextEditingController(text: clothModel?.category);
 
     String category = clothModel?.category ?? '';
     String fit = clothModel?.fit ?? '';
@@ -48,6 +53,8 @@ class AddItem extends StatelessWidget {
     ItemimageaddBloc itemimageaddBloc = ItemimageaddBloc();
     AddBloc addUpdateBloc = AddBloc();
     MultiDdBloc multiDdBloc = MultiDdBloc();
+    CategoryBloc categoryBloc = CategoryBloc();
+    categoryBloc.add(CategoryInitialEvent());
 
     if (clothModel?.size != null) {
       multiDdBloc.countMap = clothModel?.size ?? {};
@@ -78,15 +85,56 @@ class AddItem extends StatelessWidget {
                   controller: descriptionController,
                   maxLines: 4,
                 ),
-                CustomDropDown(
-                  items: categoryOptios,
-                  selectedValue: clothModel?.category ?? '',
-                  label: 'category',
-                  onChanged: (value) {
-                    if (value != null) {
-                      category = value;
-                    }
-                  },
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                       Text(
+                        'category',
+                        style: blackTextStyle,
+                      ),
+                      TextFormField(
+                        readOnly: true,
+                        showCursor: false,
+                        controller: categoryController,
+                        decoration: const InputDecoration(
+                          suffixIcon: Icon(Icons.arrow_right),
+                          labelStyle: TextStyle(fontSize: 12),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 14, horizontal: 10),
+                          isDense: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                          ),
+                        ),
+                        keyboardType: TextInputType.none,
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) => Scaffold(
+                                    body: CategoryWidget(
+                                      categoryBloc: categoryBloc,
+                                      onChanged: (category) {
+                                        categoryController.text =
+                                            category ?? '';
+                                        categoryBloc.add(
+                                            CategorySelectedEvent(
+                                                category: category));
+                                      },
+                                    ),
+                                  ));
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                Visibility(
+                  visible: category == 'others',
+                  child: CustomTextfield2(
+                      label: 'category', controller: categoryController),
                 ),
                 CustomDropDown(
                     items: fits,
@@ -97,6 +145,15 @@ class AddItem extends StatelessWidget {
                       }
                     },
                     label: 'fit'),
+                    CustomDropDown(
+                    items: fabric,
+                    selectedValue: clothModel?.material ?? '',
+                    onChanged: (value) {
+                      if (value != null) {
+                        materialController.text = value;
+                      }
+                    },
+                    label: 'material'),
                 BlocProvider(
                   create: (context) => itemimageaddBloc,
                   child: const ItemImageAddWidget(),
@@ -115,9 +172,7 @@ class AddItem extends StatelessWidget {
                               .toList()));
                     },
                     multiDdBloc: multiDdBloc),
-                CustomTextfield2(label: 'brand', controller: brandController),
-                CustomTextfield2(
-                    label: 'material', controller: materialController),
+                CustomTextfield2(label: 'brand', controller: brandController), 
                 CustomTextfield2(
                   label: 'price',
                   controller: priceController,
@@ -153,6 +208,7 @@ class AddItem extends StatelessWidget {
                         onTap: () {
                           addUpdateBloc.clothModel = clothModel ??
                               ClothModel(
+                                  date: DateTime.now(),
                                   sellerID: '',
                                   name: '',
                                   description: '',
@@ -166,26 +222,31 @@ class AddItem extends StatelessWidget {
                                   tags: '',
                                   metaTitle: '',
                                   metaDescription: '');
-                          addUpdateBloc.clothModel.sellerID =
-                              context.read<LoginBloc>().sellerModel!.email;
-                          addUpdateBloc.clothModel.name = nameController.text;
-                          addUpdateBloc.clothModel.description =
-                              descriptionController.text;
-                          addUpdateBloc.clothModel.category = category;
-                          addUpdateBloc.clothModel.fit = fit;
-                          addUpdateBloc.clothModel.size = multiDdBloc.countMap;
-                          addUpdateBloc.clothModel.images =
-                              itemimageaddBloc.images;
-                          addUpdateBloc.clothModel.brand = brandController.text;
-                          addUpdateBloc.clothModel.material =
-                              materialController.text;
-                          addUpdateBloc.clothModel.price =
-                              int.parse(priceController.text);
-                          addUpdateBloc.clothModel.tags = tagsController.text;
-                          addUpdateBloc.clothModel.metaTitle =
-                              metaTitleController.text;
-                          addUpdateBloc.clothModel.metaDescription =
-                              metaDescriptionController.text;
+                          if (formkey.currentState!.validate()) {
+                            addUpdateBloc.clothModel.sellerID =
+                                context.read<LoginBloc>().sellerModel!.email;
+                            addUpdateBloc.clothModel.name = nameController.text;
+                            addUpdateBloc.clothModel.description =
+                                descriptionController.text;
+                            addUpdateBloc.clothModel.category =
+                                categoryController.text;
+                            addUpdateBloc.clothModel.fit = fit;
+                            addUpdateBloc.clothModel.size =
+                                multiDdBloc.countMap;
+                            addUpdateBloc.clothModel.images =
+                                itemimageaddBloc.images;
+                            addUpdateBloc.clothModel.brand =
+                                brandController.text;
+                            addUpdateBloc.clothModel.material =
+                                materialController.text;
+                            addUpdateBloc.clothModel.price =
+                                int.parse(priceController.text);
+                            addUpdateBloc.clothModel.tags = tagsController.text;
+                            addUpdateBloc.clothModel.metaTitle =
+                                metaTitleController.text;
+                            addUpdateBloc.clothModel.metaDescription =
+                                metaDescriptionController.text;
+                          }
 
                           addUpdateBloc
                               .add(SaveButtonPressedEvent(formkey: formkey));

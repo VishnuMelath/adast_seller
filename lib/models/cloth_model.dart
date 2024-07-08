@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ClothModel {
   String? id;
   String sellerID;
@@ -7,6 +9,7 @@ class ClothModel {
    String description;
    String category;
    String fit;
+   DateTime date;
    Map<String,dynamic> size;
    List images;
     Map<String,dynamic> reservedCount;
@@ -22,6 +25,7 @@ class ClothModel {
   ClothModel(
       {
       this.id,
+      required this.date,
         required this.sellerID,
         required this.name,
       required this.description,
@@ -55,6 +59,7 @@ class ClothModel {
       'tags': tags,
       'metaTitle': metaTitle,
       'metaDescription': metaDescription,
+      'date':Timestamp.fromDate(date)
     };
   }
 
@@ -65,6 +70,7 @@ class ClothModel {
       sellerID: map['sellerID'],
         name: map['name'],
         brand: map['brand'],
+        date: map['date'].toDate(),
         category: map['category'],
         description: map['description'],
         fit: map['fit'],

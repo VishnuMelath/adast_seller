@@ -26,7 +26,7 @@ class UserDatabaseServices {
           name: userdata['name'],
           email: userdata['emailaddress'],
           image: userdata['image'],
-          latLng: userdata['latlang'],);
+          latLng: userdata['latlang'], place: userdata['place'],);
       return user;
     } catch (e) {
       log(e.toString());

@@ -1,4 +1,3 @@
-
 import 'package:adast_seller/%20themes/colors_shemes.dart';
 import 'package:adast_seller/%20themes/constants.dart';
 import 'package:adast_seller/%20themes/themes.dart';
@@ -19,9 +18,10 @@ class DrawerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DrawerBloc drawerBloc = DrawerBloc();
-
+  
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: backgroundColor,
         title: BlocBuilder(
           bloc: drawerBloc,
           builder: (context, state) {
@@ -40,6 +40,7 @@ class DrawerPage extends StatelessWidget {
         ),
       ),
       drawer: Drawer(
+        backgroundColor: drawerColor,
         child: BlocListener<DrawerBloc, DrawerState>(
           bloc: drawerBloc,
           listener: (context, state) {
@@ -66,29 +67,26 @@ class DrawerPage extends StatelessWidget {
                       padding: const EdgeInsets.only(
                         top: 38.0,
                       ),
-                      child:
-                       CircleAvatar(
+                      child: CircleAvatar(
                         radius: 60,
                         child: ClipOval(
                           child: CachedNetworkImage(
                             imageUrl:
                                 context.watch<LoginBloc>().sellerModel!.image!,
                             fit: BoxFit.cover, // Fills the circle
-                             placeholder: (context, url) => Shimmer.fromColors(
-                        baseColor: Colors.grey[300]!,
-                        highlightColor: green,
-                        child: Container(
-                          color: Colors.grey[300],
-                          height: 200,
-                        ),
-                      ),
+                            placeholder: (context, url) => Shimmer.fromColors(
+                              baseColor: Colors.grey[300]!,
+                              highlightColor: green,
+                              child: Container(
+                                color: Colors.grey[300],
+                                height: 200,
+                              ),
+                            ),
                             errorWidget: (context, url, error) =>
                                 const Icon(Icons.error),
                           ),
                         ),
                       ),
-
-                    
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -100,18 +98,35 @@ class DrawerPage extends StatelessWidget {
                   ],
                 ),
               ),
+              const SizedBox(height: 8,),
               ...List.generate(
                 6,
-                (index) => customListTile(() {
-                  Navigator.pop(context);
-                  drawerBloc.add(DrawerOptionTappedEvent(index: index));
-                }, drawerOptions[index]),
+                (index) {
+                  return BlocBuilder<DrawerBloc, DrawerState>(
+                    bloc: drawerBloc,
+                    builder: (context, state) {
+                        int selectedIndex = 0;
+                      if(state is DrawerOptionState)
+                      {
+                        selectedIndex=state.index;
+                      }
+                      return customListTile(
+                        onTap: () {
+                          Navigator.pop(context);
+                          drawerBloc.add(DrawerOptionTappedEvent(index: index));
+                        },
+                        tapped: index == selectedIndex,
+                        title: drawerOptions[index],
+                      );
+                    },
+                  );
+                },
               ),
               TextButton(
                   onPressed: () {
                     drawerBloc.add(DrawerLogoutPressedEvent());
                   },
-                  child: const Text(
+                  child: Text(
                     'Logout',
                     style: redTextStyle,
                   ))

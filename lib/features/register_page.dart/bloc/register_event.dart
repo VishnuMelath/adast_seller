@@ -9,7 +9,7 @@ class RegisterButtonEvent extends RegisterEvent{
   final TextEditingController passController;
   final TextEditingController emailController;
 
-  RegisterButtonEvent( {required this.formkey,required this.nameController, required this.passController, required this.emailController});
+  RegisterButtonEvent(  {required this.formkey,required this.nameController, required this.passController, required this.emailController});
   
 }
 

@@ -13,9 +13,6 @@ class InventoryAddButtonPressedEvent extends InventoryEvent{}
 class InventoryPressedOnItemEvent extends InventoryEvent{}
 
 class InventorySearchEvent extends InventoryEvent{
- final String searchQuery;
-
-  InventorySearchEvent({required this.searchQuery});
 }
 
 // class InventorySortEvent extends InventoryEvent{
@@ -23,4 +20,6 @@ class InventorySearchEvent extends InventoryEvent{
 // }
 
 class InventoryFilterEvent extends InventoryEvent{}
+
+class InventoryClearFilterEvent extends InventoryEvent{}
 

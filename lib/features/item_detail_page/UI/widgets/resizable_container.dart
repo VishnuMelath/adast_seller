@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:adast_seller/%20themes/colors_shemes.dart';
 import 'package:adast_seller/%20themes/themes.dart';
 import 'package:adast_seller/custom_widgets/custom_button.dart';
+import 'package:adast_seller/features/inventory/methods/methods.dart';
+import 'package:adast_seller/features/item_detail_page/UI/widgets/drawer_holder.dart';
 import 'package:adast_seller/features/item_detail_page/UI/widgets/show_dialog_delete.dart';
 import 'package:adast_seller/features/item_detail_page/UI/widgets/size_widget.dart';
 import 'package:adast_seller/features/item_detail_page/bloc/item_details_bloc.dart';
@@ -50,17 +52,7 @@ class _ResizableContainerState extends State<ResizableContainer> {
               return s + (e[1] ?? 0) as int;
             },
           );
-          itemsLeft = itemDetailsBloc.item.size.values.fold<int>(
-                0,
-                (s, e) {
-                  return s + e[0] as int;
-                },
-              ) -
-              (itemDetailsBloc.item.soldCount
-                      .containsKey(itemDetailsBloc.selectedSize)
-                  ? itemDetailsBloc.item.soldCount[itemDetailsBloc.selectedSize]
-                      as int
-                  : 0);
+          itemsLeft = totalItemsLeft(itemDetailsBloc.item);
         } else {
           reservedCount = itemDetailsBloc
                   .item.reservedCount[itemDetailsBloc.selectedSize] ??
@@ -86,25 +78,7 @@ class _ResizableContainerState extends State<ResizableContainer> {
                           alignment: Alignment.center,
                           child: GestureDetector(
                             onVerticalDragUpdate: onDragUpdate,
-                            child: Material(
-                              // elevation: 10,
-                              color: Colors.transparent,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    top: 10,
-                                    bottom: 3.0,
-                                    right: MediaQuery.of(context).size.width * 0.3,
-                                    left: MediaQuery.of(context).size.width * 0.3),
-                                child: Container(
-                                  padding: const EdgeInsets.all(5),
-                                  width: 60,
-                                  height: 8,
-                                  decoration: BoxDecoration(
-                                      color: grey.withOpacity(0.4),
-                                      borderRadius: BorderRadius.circular(10)),
-                                ),
-                              ),
-                            ),
+                            child: drawerHolder(context),
                           ),
                         ),
               Expanded(
@@ -138,41 +112,13 @@ class _ResizableContainerState extends State<ResizableContainer> {
                             )
                           ],
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                                child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  capitalize(itemDetailsBloc.item.brand),
-                                  style: largeBlackTextStyle,
-                                ),
-                                Text(
-                                  itemDetailsBloc.item.name,
-                                  style: blackTextStyle,
-                                ),
-                              ],
-                            )),
-                            IconButton(
-                                onPressed: () async {
-                                  showDialogueDelete(
-                                    context,
-                                    onPressed: () async {
-                                      await ItemDatabaseServices()
-                                          .deleteItem(itemDetailsBloc.item.id!)
-                                          .then(
-                                        (value) {
-                                          Navigator.pop(context);
-                                          Navigator.pop(context, true);
-                                        },
-                                      );
-                                    },
-                                  );
-                                },
-                                icon: const Icon(Icons.delete))
-                          ],
+                        Text(
+                          capitalize(itemDetailsBloc.item.brand),
+                          style: largeBlackTextStyle,
+                        ),
+                        Text(
+                          itemDetailsBloc.item.name,
+                          style: blackTextStyle,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top:8.0),
@@ -181,13 +127,13 @@ class _ResizableContainerState extends State<ResizableContainer> {
                             style: greyTextStyle,
                           ),
                         ),
-                        const Text(
+                         Text(
                           'size',
                           style: mediumBlackTextStyle,
                         ),
                         SizeWidget(itemDetailsBloc: itemDetailsBloc),
                         const Divider(),
-                        const Text(
+                         Text(
                           'Product details',
                           style: mediumBlackTextStyle,
                         ),
@@ -201,7 +147,7 @@ class _ResizableContainerState extends State<ResizableContainer> {
                                 children: [
                                   SizedBox(
                                     width: MediaQuery.sizeOf(context).width*.4,
-                                    child: const Text(
+                                    child:  Text(
                                       'Material',
                                       style: greyTextStyle,
                                     ),
@@ -215,7 +161,7 @@ class _ResizableContainerState extends State<ResizableContainer> {
                                 children: [
                                   SizedBox(
                                     width: MediaQuery.sizeOf(context).width*.4,
-                                    child: const Text(
+                                    child:  Text(
                                       'Fit',
                                       style: greyTextStyle,
                                     ),
@@ -229,7 +175,7 @@ class _ResizableContainerState extends State<ResizableContainer> {
                                 children: [
                                   SizedBox(
                                     width: MediaQuery.sizeOf(context).width*.4,
-                                    child: const Text(
+                                    child:  Text(
                                       'Category',
                                       style: greyTextStyle,
                                     ),
@@ -243,7 +189,7 @@ class _ResizableContainerState extends State<ResizableContainer> {
                                 children: [
                                   SizedBox(
                                     width: MediaQuery.sizeOf(context).width*.4,
-                                    child: const Text(
+                                    child:  Text(
                                       'Price',
                                       style: greyTextStyle,
                                     ),
@@ -253,12 +199,7 @@ class _ResizableContainerState extends State<ResizableContainer> {
                 
                                 ],
                               ),
-                              SizedBox(
-                                width: MediaQuery.sizeOf(context).width*.6,
-                                child: CustomButton(onTap: () {
-                                  
-                                }, text: 'Delete'),
-                              )
+                              
                             ],
                           ),
                         )
@@ -267,7 +208,26 @@ class _ResizableContainerState extends State<ResizableContainer> {
                   ),
                 ),
               ),
-            ],
+            Align(alignment: Alignment.centerLeft,
+              child: SizedBox(
+                                  width: MediaQuery.sizeOf(context).width*.6,
+                                  child: CustomButton(onTap: () {
+                                       showDialogueDelete(
+                                      context,
+                                      onPressed: () async {
+                                        await ItemDatabaseServices()
+                                            .deleteItem(itemDetailsBloc.item.id!)
+                                            .then(
+                                          (value) {
+                                            Navigator.pop(context);
+                                            Navigator.pop(context, true);
+                                          },
+                                        );
+                                      },
+                                    );
+                                  }, text: 'Delete'),
+                                ),
+            )],
           ),
         );
       },

@@ -1,12 +1,18 @@
+import 'dart:developer';
+
 import 'package:adast_seller/%20themes/colors_shemes.dart';
 import 'package:adast_seller/%20themes/themes.dart';
 import 'package:adast_seller/features/inventory/UI/widgets/custom_grid.dart';
 import 'package:adast_seller/features/add_update_item/UI/widgets/custom_textfield.dart';
 import 'package:adast_seller/features/add_update_item/UI/add_update_item.dart';
+import 'package:adast_seller/features/inventory/UI/widgets/filter_widget.dart';
+import 'package:adast_seller/features/inventory/UI/widgets/sort_filter_widget.dart';
+import 'package:adast_seller/features/inventory/UI/widgets/sort_widget.dart';
 import 'package:adast_seller/features/inventory/bloc/inventory_bloc.dart';
 import 'package:adast_seller/features/item_detail_page/UI/item_detail.dart';
 import 'package:adast_seller/features/item_detail_page/bloc/item_details_bloc.dart';
 import 'package:adast_seller/features/login_screen/bloc/login_bloc.dart';
+import 'package:adast_seller/methods/debouncer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,12 +22,14 @@ class InventoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     InventoryBloc inventoryBloc = BlocProvider.of<InventoryBloc>(context);
+    Debouncer debouncer = Debouncer(500);
     inventoryBloc.add(InventoryInitialEvent(
         email: context.read<LoginBloc>().sellerModel!.email));
     return Column(
       children: [
         Expanded(
           child: Scaffold(
+            backgroundColor: backgroundColor,
             floatingActionButton: FloatingActionButton(
               backgroundColor: green,
               onPressed: () {
@@ -37,6 +45,14 @@ class InventoryPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: CustomTextfield(
+                    onChanged: (value) {
+                      inventoryBloc.searchQuery = value;
+                      debouncer.call(
+                        () {
+                          inventoryBloc.add(InventorySearchEvent());
+                        },
+                      );
+                    },
                     label: 'Search',
                     controller: TextEditingController(),
                     search: true,
@@ -67,53 +83,57 @@ class InventoryPage extends StatelessWidget {
                           child: CircularProgressIndicator(),
                         );
                       } else if (state is InventoryEmptyState) {
-                        return const Center(
+                        return Center(
                           child: Text(
-                            'No items available',
+                            'No items found',
                             style: blackTextStyle,
                           ),
                         );
                       } else if (state is InventoryLoadedState) {
                         return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: GridView.builder(
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisSpacing: 5,
-                                      mainAxisSpacing: 2,
-                                      childAspectRatio: 0.7,
-                                      crossAxisCount: 2),
-                              itemCount: inventoryBloc.showingItems.length,
-                              itemBuilder: (context, index) => GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => BlocProvider(
-                                              create: (context) =>
-                                                  ItemDetailsBloc(
-                                                      item: inventoryBloc
-                                                          .showingItems[index]),
-                                              child: const ItemDetails(),
-                                            ),
-                                          )).then(
-                                        (value) {
-                                          if (value == true) {
-                                            inventoryBloc.add(
-                                              InventoryInitialEvent(
-                                                  email: context
-                                                      .read<LoginBloc>()
-                                                      .sellerModel!
-                                                      .email),
+                          padding: const EdgeInsets.only(top: 10),
+                          child: SingleChildScrollView(
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: Wrap(
+                                children: [
+                                  ...inventoryBloc.showingItems.map(
+                                    (e) {
+                                      return GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      BlocProvider(
+                                                    create: (context) =>
+                                                        ItemDetailsBloc(
+                                                            item: e),
+                                                    child: const ItemDetails(),
+                                                  ),
+                                                )).then(
+                                              (value) {
+                                                if (value == true) {
+                                                  inventoryBloc.add(
+                                                    InventoryInitialEvent(
+                                                        email: context
+                                                            .read<LoginBloc>()
+                                                            .sellerModel!
+                                                            .email),
+                                                  );
+                                                }
+                                              },
                                             );
-                                          }
-                                        },
-                                      );
+                                          },
+                                          child: CustomGrid(
+                                            clothModel: e,
+                                          ));
                                     },
-                                    child: CustomGrid(
-                                        clothModel:
-                                            inventoryBloc.showingItems[index]),
-                                  )),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                         );
                       } else {
                         return const SizedBox();
@@ -125,29 +145,29 @@ class InventoryPage extends StatelessWidget {
             ),
           ),
         ),
-        const Material(
+        Material(
           elevation: 10,
-          child: Row(
-            children: [
-              Expanded(
-                  child: Align(
-                      alignment: Alignment.center,
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text('sort', style: blackTextStyle),
-                      ))),
-              Icon(Icons.restart_alt_rounded),
-              Expanded(
-                  child: Align(
-                      alignment: Alignment.center,
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          'filter',
-                          style: blackTextStyle,
-                        ),
-                      )))
-            ],
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: Row(
+              children: [
+                SortFilterWidget(
+                    onTap: () {
+                      showFilters(context, inventoryBloc);
+                    },
+                    icons: Icons.filter_alt_sharp,
+                    label: 'filter'),
+                GestureDetector(
+                  onTap: () {
+                    inventoryBloc.add(InventoryClearFilterEvent());
+                  },
+                  child: const Icon(Icons.restart_alt_rounded)),
+                SortFilterWidget(
+                    onTap: () {
+                      showSortBottomSheet(context, inventoryBloc);
+                    }, icons: Icons.sort, label: 'sort'),
+              ],
+            ),
           ),
         )
       ],

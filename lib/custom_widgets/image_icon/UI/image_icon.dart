@@ -28,7 +28,7 @@ class ImageIconWidget extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
+                   Text(
                     'Profile Picture',
                     style: whiteHeadTextStyle,
                   ),

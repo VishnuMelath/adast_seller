@@ -3,6 +3,7 @@ import 'dart:developer';
 
 
 import 'package:adast_seller/models/cloth_model.dart';
+import 'package:adast_seller/services/category_database_services.dart';
 import 'package:adast_seller/services/item_database_services.dart';
 import 'package:adast_seller/methods/network_check.dart';
 import 'package:bloc/bloc.dart';
@@ -20,6 +21,9 @@ class AddBloc extends Bloc<AddEvent, AddState> {
 
   FutureOr<void> saveButtonPressedEvent(
       SaveButtonPressedEvent event, Emitter<AddState> emit) async {
+        log(clothModel.category);
+        log(clothModel.fit);
+        log(clothModel.size.toString());
     emit(SaveButtonPressedState());
     if (!await hasNetwork()) {
       emit(NetworkErrorState());
@@ -44,7 +48,7 @@ class AddBloc extends Bloc<AddEvent, AddState> {
         return;
       }
       try {
-        log(clothModel.toMap().toString());
+        await CategoryDatabaseServices().addCategory(clothModel.category);
         if(clothModel.id==null)
         {
           await ItemDatabaseServices().addItem(clothModel);

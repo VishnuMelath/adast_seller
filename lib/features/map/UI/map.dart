@@ -96,7 +96,7 @@ class _MapScreenState extends State<MapScreen> {
                           ],
                         ),
                         CustomTextfield(
-                          label: 'Address',
+                          label: 'Place',
                           controller: addressController,
                           maxLines: 4,
                         ),
@@ -104,9 +104,9 @@ class _MapScreenState extends State<MapScreen> {
                             onTap: () async {
                               
                               mapBloc.add(MapSavePressedEvent(
+                                place: addressController.text,
                                   formkey: formkey,
                                   name: nameController.text,
-                                  address: addressController.text,
                                   latLng: markers.first.position,
                                   image: imageIconBloc.imageUrl,
                                   email: context
@@ -144,13 +144,13 @@ class _MapScreenState extends State<MapScreen> {
                     zoom: 13.0,
                   ),
                 ),
-                const SafeArea(
+                 SafeArea(
                   child: Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Card(
                       color: green,
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'Complete the profile by adding location of your shop in the map and add the necessory info.',
                           style: whiteTextStyle,

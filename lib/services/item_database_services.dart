@@ -11,7 +11,7 @@ class ItemDatabaseServices {
       final sellersCollection = firestore.collection('items');
       await sellersCollection.add(item.toMap());
 
-    } on Exception catch (e) {
+    } on FirebaseException catch (e) {
       log(e.toString());
     }
   }
@@ -19,7 +19,7 @@ class ItemDatabaseServices {
     try {
       final document = firestore.collection('items').doc(item.id);
       await document.set(item.toMap());
-    } on Exception catch (e) {
+    } on FirebaseException catch (e) {
       log(e.toString());
     }
   }
@@ -29,7 +29,7 @@ class ItemDatabaseServices {
     try {
       final document = firestore.collection('items').doc(id);
      await document.delete();
-    } on Exception catch (e) {
+    } on FirebaseException catch (e) {
       log(e.toString());
     }
 
@@ -38,7 +38,7 @@ class ItemDatabaseServices {
   Future<List<ClothModel>> getAllItems(String email) async {
     try {
       final sellersCollection = firestore.collection('items');
-      Query userQuery = sellersCollection.where('sellerID', isEqualTo: email);
+      Query userQuery = sellersCollection.where('sellerID', isEqualTo: email).orderBy('date',descending: true);
       QuerySnapshot<Object?> itemsnap = await userQuery.get();
       return itemsnap.docs.map(
         (e) {
@@ -46,7 +46,7 @@ class ItemDatabaseServices {
           return ClothModel.fromJson(e.data() as Map<String, dynamic>,e.id);
         },
       ).toList();
-    } catch (e) {
+    }on FirebaseException catch (e) {
       log(e.toString());
       rethrow;
     }
@@ -66,7 +66,7 @@ class ItemDatabaseServices {
           return ClothModel.fromJson(e.data() as Map<String, dynamic>,e.id);
         },
       ).toList();
-    } catch (e) {
+    }on FirebaseException  catch (e) {
       log(e.toString());
       rethrow;
     }
@@ -99,7 +99,7 @@ class ItemDatabaseServices {
           return ClothModel.fromJson(e.data() as Map<String, dynamic>,e.id);
         },
       ).toList();
-    } catch (e) {
+    }on FirebaseException catch (e) {
       log(e.toString());
       rethrow;
     }

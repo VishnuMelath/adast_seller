@@ -17,9 +17,9 @@ class MapCurrentLocationTappedEvent extends MapEvent{
 class MapSavePressedEvent extends MapEvent {
 final GlobalKey<FormState> formkey;
  final String name;
- final String address;
  final LatLng latLng;
  final String? image;
  final String email;
-  MapSavePressedEvent({required this.name, required this.address, required this.latLng, required this.image,required this.email,required this.formkey});
+ final String place;
+  MapSavePressedEvent({required this.place,required this.name, required this.latLng, required this.image,required this.email,required this.formkey});
 }

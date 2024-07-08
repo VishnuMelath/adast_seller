@@ -46,18 +46,24 @@ class _CustomTextfield2State extends State<CustomTextfield2> {
             controller: widget.controller,
             onChanged: widget.onChanged,
             decoration: const InputDecoration(
-                labelStyle: TextStyle(fontSize: 12),
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 14, horizontal: 10),
-                isDense: true,
-                border: OutlineInputBorder()),
-            validator:widget.validator ?? (value) {
-              if (value == '' || value == null) {
-                return '${widget.label} cannot be empty';
-              }
+              labelStyle: TextStyle(fontSize: 12),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+              isDense: true,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10),
+                ),
+              ),
+            ),
+            validator: widget.validator ??
+                (value) {
+                  if (value == '' || value == null) {
+                    return '${widget.label} cannot be empty';
+                  }
 
-              return null;
-            },
+                  return null;
+                },
           ),
         ],
       ),
