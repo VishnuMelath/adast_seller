@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../models/seller_model.dart';
-import 'user_database_services.dart';
+import 'seller_database_services.dart';
 
 class LoginService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -14,7 +14,7 @@ class LoginService {
       var user = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       log(user.additionalUserInfo.toString());
-      return await UserDatabaseServices().getSellerData(user.user!.email!);
+      return await SellerDatabaseServices().getSellerData(user.user!.email!);
     } catch (e) {
       log(e.toString());
       rethrow;
@@ -28,7 +28,7 @@ class LoginService {
           .then((value) {
         log(value.user!.photoURL ?? '');
       });
-      await UserDatabaseServices().addSeller(user);
+      await SellerDatabaseServices().addSeller(user);
       return user;
     } catch (e) {
       log(e.toString());
@@ -54,7 +54,7 @@ class LoginService {
     }
     else
     {
-      return await UserDatabaseServices().getSellerData(user.email!);
+      return await SellerDatabaseServices().getSellerData(user.email!);
     }
     } catch (e) {
       log(e.toString());
@@ -100,7 +100,7 @@ class LoginService {
       final user = auth.currentUser;
       log(user?.email ?? 'no user');
       if (user != null) {
-        return await UserDatabaseServices().getSellerData(user.email!);
+        return await SellerDatabaseServices().getSellerData(user.email!);
       } else {
         return null;
       }

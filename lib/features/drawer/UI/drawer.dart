@@ -1,6 +1,8 @@
 import 'package:adast_seller/%20themes/colors_shemes.dart';
 import 'package:adast_seller/%20themes/constants.dart';
 import 'package:adast_seller/%20themes/themes.dart';
+import 'package:adast_seller/features/chat/chat_list/UI/chat_list_page.dart';
+import 'package:adast_seller/features/chat/chat_list/bloc/chat_list_bloc.dart';
 import 'package:adast_seller/features/drawer/UI/cutom_drawer_option.dart';
 import 'package:adast_seller/features/drawer/bloc/drawer_bloc.dart';
 import 'package:adast_seller/features/inventory/UI/inventory.dart';
@@ -18,7 +20,7 @@ class DrawerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DrawerBloc drawerBloc = DrawerBloc();
-  
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: backgroundColor,
@@ -98,17 +100,18 @@ class DrawerPage extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 8,),
+              const SizedBox(
+                height: 8,
+              ),
               ...List.generate(
                 6,
                 (index) {
                   return BlocBuilder<DrawerBloc, DrawerState>(
                     bloc: drawerBloc,
                     builder: (context, state) {
-                        int selectedIndex = 0;
-                      if(state is DrawerOptionState)
-                      {
-                        selectedIndex=state.index;
+                      int selectedIndex = 0;
+                      if (state is DrawerOptionState) {
+                        selectedIndex = state.index;
                       }
                       return customListTile(
                         onTap: () {
@@ -149,7 +152,10 @@ class DrawerPage extends StatelessWidget {
               case 2:
                 return const Center(child: Text('Reservations'));
               case 3:
-                return const Center(child: Text('Inbox'));
+                return BlocProvider(
+                  create: (context) => ChatListBloc(),
+                  child: const ChatListPage(),
+                );
               case 4:
                 return const Center(child: Text('Revenue'));
               case 5:

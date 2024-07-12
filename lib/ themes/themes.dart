@@ -18,7 +18,9 @@ const Decoration greenbuttonDecoration=BoxDecoration(
 
  TextStyle whiteHeadTextStyle=GoogleFonts.robotoSlab(color: Colors.white,fontWeight: FontWeight.w700,fontSize: 20);
 
- TextStyle greyTextStyle=  GoogleFonts.robotoSlab(color: Colors.black54);
+  TextStyle greyTextStyle=  GoogleFonts.robotoSlab(color: Colors.black54);
+ TextStyle greySmallTextStyle=  GoogleFonts.robotoSlab(color: Colors.black54,fontSize: 10);
+ TextStyle greyMediumTextStyle=  GoogleFonts.robotoSlab(color: Colors.black54,fontSize: 12);
 
  TextStyle smallGreyTextStyle =GoogleFonts.robotoSlab(color: Colors.black54,fontSize: 10);
 
@@ -27,6 +29,7 @@ const Decoration greenbuttonDecoration=BoxDecoration(
  TextStyle greenTextStyle=  GoogleFonts.robotoSlab(color: green,fontWeight: FontWeight.w700);
 
  TextStyle blackTextStyle=GoogleFonts.robotoSlab(color: Colors.black,fontWeight: FontWeight.w700);
+  TextStyle blackPlainTextStyle=GoogleFonts.robotoSlab(color: Colors.black);
 
  TextStyle smallBlackTextStyle=GoogleFonts.robotoSlab(color: Colors.black,fontWeight: FontWeight.w700,fontSize: 10
  );

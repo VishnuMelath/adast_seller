@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:adast_seller/%20themes/colors_shemes.dart';
 import 'package:adast_seller/%20themes/themes.dart';

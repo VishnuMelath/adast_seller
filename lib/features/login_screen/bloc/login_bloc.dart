@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:adast_seller/models/seller_model.dart';
-import 'package:adast_seller/services/user_database_services.dart';
+import 'package:adast_seller/services/seller_database_services.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +48,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     var result = await LoginService().signUpWithGoogle();
     log(result.toString());
     if (!result.$2) {
-      sellerModel = await UserDatabaseServices().getSellerData(result.$1!);
+      sellerModel = await SellerDatabaseServices().getSellerData(result.$1!);
       emit(LoginNavigateToHomeState(sellerModel: sellerModel!));
     } else {
       sellerModel = SellerModel(email: result.$1!, name: '',place: '');
