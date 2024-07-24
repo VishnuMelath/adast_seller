@@ -1,3 +1,4 @@
+import 'package:adast_seller/features/drawer/bloc/drawer_bloc.dart';
 import 'package:adast_seller/features/login_screen/UI/widgets/google_button.dart';
 import 'package:adast_seller/features/drawer/UI/drawer.dart';
 import 'package:adast_seller/features/login_screen/UI/forgot_password.dart';
@@ -43,16 +44,18 @@ class _LoginScreenState extends State<LoginScreen> {
               if (state is LoginInvalidUserIdOrPassState) {
                 customSnackBar(context, 'invalid email or password');
               }
-              if(state is LoginErrorState)
-              {
-                customSnackBar(context,state.message);
+              if (state is LoginErrorState) {
+                customSnackBar(context, state.message);
               }
               if (state is LoginNavigateToHomeState) {
                 context.read<LoginBloc>().sellerModel = state.sellerModel;
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const DrawerPage(),
+                      builder: (context) => BlocProvider(
+                        create: (context) => DrawerBloc(),
+                        child: const DrawerPage(),
+                      ),
                     ));
               }
               if (state is LoginNavigateToCompleteProfileState) {
@@ -104,7 +107,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         onTap: () {
                           forgotPasswordDialog(
                               context, emailcontroller1, loginBloc);
-
                         },
                         child: const Text(
                           'forgot password?',
@@ -117,10 +119,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 BlocBuilder<LoginBloc, LoginState>(
                   builder: (context, state) {
-                    bool loading=false;
-                    if(state is LoginButtonPressedState)
-                    {
-                      loading=true;
+                    bool loading = false;
+                    if (state is LoginButtonPressedState) {
+                      loading = true;
                     }
                     return CustomButton(
                       loading: loading,
@@ -150,7 +151,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   onTap: () {
                     loginBloc.add(LoginGoogleAuthPressedEvent());
                   },
-                  
                 ),
                 Center(
                   child: BlocListener(
@@ -163,9 +163,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         GestureDetector(
                           onTap: () {
                             loginBloc.add(LoginRegisterPressedEvent());
-                            //todo : register
                           },
-                          child:  Text(
+                          child: Text(
                             ' Sign up here',
                             style: greenTextStyle,
                           ),

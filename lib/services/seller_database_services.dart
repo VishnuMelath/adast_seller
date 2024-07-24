@@ -13,6 +13,13 @@ class SellerDatabaseServices{
       log(e.toString());
     }
   }
+    Future<SellerModel> getSeller(String email) async
+  {
+    final query=firestore.collection('sellers').where('emailaddress',isEqualTo: email);
+    final list=await query.get();
+
+    return SellerModel.fromJson(list.docs.first);
+  }
 
   Future<SellerModel> getSellerData(String email) async {
     try {
@@ -22,17 +29,25 @@ class SellerDatabaseServices{
       QuerySnapshot<Object?> sellersnap = await userQuery.get();
       Map<String, dynamic> userdata =
           sellersnap.docs.first.data() as Map<String, dynamic>;
-      var user = SellerModel(
+      var seller = SellerModel(
           name: userdata['name'],
           email: userdata['emailaddress'],
           image: userdata['image'],
           latLng: userdata['latlang'], place: userdata['place'],);
-      return user;
+      return seller;
     } catch (e) {
       log(e.toString());
       rethrow;
     }
   }
-
+Future updateSellerWallet(int amount,String sellerId)
+  async 
+  {
+    final sellersCollection = firestore.collection('sellers');
+      Query userQuery =
+          sellersCollection.where('emailaddress', isEqualTo: sellerId);
+      QuerySnapshot<Object?> sellersnap = await userQuery.get();
+    await firestore.collection('sellers').doc(sellersnap.docs.first.id).update({'wallet':FieldValue.increment(amount)});
+  }
  
 }

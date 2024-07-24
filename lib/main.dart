@@ -3,6 +3,7 @@ import 'package:adast_seller/features/login_screen/bloc/login_bloc.dart';
 import 'package:adast_seller/features/splash_screen/UI/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'firebase_options.dart';
 
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
           
-          appBarTheme: const AppBarTheme(iconTheme: IconThemeData(color: green)),
+          appBarTheme: const AppBarTheme(iconTheme: IconThemeData(color: green),systemOverlayStyle: SystemUiOverlayStyle.dark),
           colorScheme: ColorScheme.fromSeed(seedColor: green),
           useMaterial3: true,
         ),

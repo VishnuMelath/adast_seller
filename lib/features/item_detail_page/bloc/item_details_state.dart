@@ -13,3 +13,5 @@ class ItemDetailsChangedState extends ItemDetailsState{
 }
 
 class ItemDetailsSizeChangedState extends ItemDetailsState{}
+
+class ItemDetailsPageChangedState extends ItemDetailsState{}

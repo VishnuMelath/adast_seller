@@ -49,7 +49,7 @@ class _ResizableContainerState extends State<ResizableContainer> {
           reservedCount = itemDetailsBloc.item.reservedCount.values.fold<int>(
             0,
             (s, e) {
-              return s + (e[1] ?? 0) as int;
+              return s + (e ?? 0) as int;
             },
           );
           itemsLeft = totalItemsLeft(itemDetailsBloc.item);
@@ -57,10 +57,7 @@ class _ResizableContainerState extends State<ResizableContainer> {
           reservedCount = itemDetailsBloc
                   .item.reservedCount[itemDetailsBloc.selectedSize] ??
               0;
-          itemsLeft = itemDetailsBloc.item.size[itemDetailsBloc.selectedSize]
-                  [0] -
-              (itemDetailsBloc.item.soldCount[itemDetailsBloc.selectedSize] ??
-                  0);
+          itemsLeft = itemsLeftForSelectedSize(itemDetailsBloc.item, itemDetailsBloc.selectedSize!);
         }
         log(itemDetailsBloc.item.toMap().toString());
         return Container(

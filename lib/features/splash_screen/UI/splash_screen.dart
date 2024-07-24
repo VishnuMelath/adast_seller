@@ -1,4 +1,5 @@
 import 'package:adast_seller/features/drawer/UI/drawer.dart';
+import 'package:adast_seller/features/drawer/bloc/drawer_bloc.dart';
 import 'package:adast_seller/features/login_screen/bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,7 +40,10 @@ class _SplashScreenState extends State<SplashScreen> {
         listener: (context, state) {
           if (state is SplashNavigateToHomeState) {
             context.read<LoginBloc>().sellerModel=state.sellerModel;
-            Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) =>const DrawerPage(),));
+            Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> BlocProvider(
+              create: (context) => DrawerBloc(),
+              child: const DrawerPage(),
+            ),));
           } else if (state.runtimeType == SplashNavigatetoLoginState) {
             Navigator.pushReplacement(
                 context,

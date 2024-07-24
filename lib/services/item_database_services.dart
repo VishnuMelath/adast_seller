@@ -23,7 +23,15 @@ class ItemDatabaseServices {
       log(e.toString());
     }
   }
-
+  Future<ClothModel> getItem(String itemid)async
+  {
+    try {
+      final snapshot=await firestore.collection('items').doc(itemid).get();
+      return ClothModel.fromJson(snapshot.data()!,snapshot.id);
+    }on FirebaseException catch (_) {
+      rethrow;
+    }
+  }
   Future<void> deleteItem(String id) async
   {
     try {

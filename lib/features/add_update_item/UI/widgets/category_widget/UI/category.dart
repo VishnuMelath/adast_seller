@@ -51,8 +51,7 @@ class CategoryWidget extends StatelessWidget {
                     label: 'Search',
                     controller: searchController,
                     onChanged: (value) {
-                      context
-                          .read<CategoryBloc>()
+                      categoryBloc
                           .add(CategorySearchEvent(query: value));
                     },
                   ),

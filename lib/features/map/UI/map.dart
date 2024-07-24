@@ -8,6 +8,7 @@ import 'package:adast_seller/features/add_update_item/UI/widgets/custom_textfiel
 import 'package:adast_seller/custom_widgets/image_icon/UI/image_icon.dart';
 import 'package:adast_seller/custom_widgets/image_icon/bloc/image_icon_bloc.dart';
 import 'package:adast_seller/features/drawer/UI/drawer.dart';
+import 'package:adast_seller/features/drawer/bloc/drawer_bloc.dart';
 import 'package:adast_seller/features/login_screen/bloc/login_bloc.dart';
 import 'package:adast_seller/features/map/bloc/map_bloc.dart';
 import 'package:flutter/material.dart';
@@ -50,17 +51,19 @@ class _MapScreenState extends State<MapScreen> {
           bloc: mapBloc,
           listener: (context, state) {
             if (state is MapNavigateToHomeState) {
-              context.read<LoginBloc>().sellerModel=state.sellerModel;
+              context.read<LoginBloc>().sellerModel = state.sellerModel;
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const DrawerPage(),
+                  builder: (context) => BlocProvider(
+                    create: (context) => DrawerBloc(),
+                    child: const DrawerPage(),
+                  ),
                 ),
                 (route) => false,
               );
             }
-            if(state is MapSaveErrorState)
-            {
+            if (state is MapSaveErrorState) {
               customSnackBar(context, state.error);
             }
             if (state is MapMarkerShowState) {
@@ -102,9 +105,8 @@ class _MapScreenState extends State<MapScreen> {
                         ),
                         CustomButton(
                             onTap: () async {
-                              
                               mapBloc.add(MapSavePressedEvent(
-                                place: addressController.text,
+                                  place: addressController.text,
                                   formkey: formkey,
                                   name: nameController.text,
                                   latLng: markers.first.position,
@@ -144,7 +146,7 @@ class _MapScreenState extends State<MapScreen> {
                     zoom: 13.0,
                   ),
                 ),
-                 SafeArea(
+                SafeArea(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Card(

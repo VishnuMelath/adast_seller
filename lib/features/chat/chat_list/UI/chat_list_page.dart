@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../ themes/colors_shemes.dart';
-import '../../../../ themes/themes.dart';
 import '../bloc/chat_list_bloc.dart';
 import 'widgets/loading_tile.dart';
 import 'widgets/reciever_tile.dart';

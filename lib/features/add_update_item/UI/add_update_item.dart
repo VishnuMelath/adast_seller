@@ -1,4 +1,3 @@
-
 import 'package:adast_seller/%20themes/constants.dart';
 import 'package:adast_seller/%20themes/themes.dart';
 import 'package:adast_seller/custom_widgets/custom_button.dart';
@@ -8,8 +7,8 @@ import 'package:adast_seller/features/add_update_item/UI/widgets/custom_drop_dow
 import 'package:adast_seller/custom_widgets/custom_snackbar.dart';
 import 'package:adast_seller/features/add_update_item/UI/widgets/item_image_add_button/UI/item_image_add_widget.dart';
 import 'package:adast_seller/features/add_update_item/UI/widgets/item_image_add_button/bloc/itemimageadd_bloc.dart';
-import 'package:adast_seller/features/add_update_item/UI/widgets/multi_select.dart';
-import 'package:adast_seller/features/drawer/UI/widgets/multi_drop_down/bloc/multi_dd_bloc.dart';
+import 'package:adast_seller/features/add_update_item/UI/widgets/multi_drop_down/UI/multi_select.dart';
+import 'package:adast_seller/features/add_update_item/UI/widgets/multi_drop_down/bloc/multi_dd_bloc.dart';
 import 'package:adast_seller/features/login_screen/bloc/login_bloc.dart';
 import 'package:adast_seller/models/cloth_model.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +45,6 @@ class AddItem extends StatelessWidget {
     TextEditingController categoryController =
         TextEditingController(text: clothModel?.category);
 
-    String category = clothModel?.category ?? '';
     String fit = clothModel?.fit ?? '';
 
     //blocs
@@ -58,6 +56,7 @@ class AddItem extends StatelessWidget {
 
     if (clothModel?.size != null) {
       multiDdBloc.countMap = clothModel?.size ?? {};
+      multiDdBloc.reservable=clothModel?.reservableCount??{};
     }
 
     if (clothModel?.images != null) {
@@ -90,7 +89,7 @@ class AddItem extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                       Text(
+                      Text(
                         'category',
                         style: blackTextStyle,
                       ),
@@ -120,9 +119,8 @@ class AddItem extends StatelessWidget {
                                       onChanged: (category) {
                                         categoryController.text =
                                             category ?? '';
-                                        categoryBloc.add(
-                                            CategorySelectedEvent(
-                                                category: category));
+                                        categoryBloc.add(CategorySelectedEvent(
+                                            category: category));
                                       },
                                     ),
                                   ));
@@ -131,11 +129,11 @@ class AddItem extends StatelessWidget {
                     ],
                   ),
                 ),
-                Visibility(
-                  visible: category == 'others',
-                  child: CustomTextfield2(
-                      label: 'category', controller: categoryController),
-                ),
+                // Visibility(
+                //   visible: category == 'others',
+                //   child: CustomTextfield2(
+                //       label: 'category', controller: categoryController),
+                // ),
                 CustomDropDown(
                     items: fits,
                     selectedValue: clothModel?.fit ?? '',
@@ -145,7 +143,7 @@ class AddItem extends StatelessWidget {
                       }
                     },
                     label: 'fit'),
-                    CustomDropDown(
+                CustomDropDown(
                     items: fabric,
                     selectedValue: clothModel?.material ?? '',
                     onChanged: (value) {
@@ -172,7 +170,7 @@ class AddItem extends StatelessWidget {
                               .toList()));
                     },
                     multiDdBloc: multiDdBloc),
-                CustomTextfield2(label: 'brand', controller: brandController), 
+                CustomTextfield2(label: 'brand', controller: brandController),
                 CustomTextfield2(
                   label: 'price',
                   controller: priceController,
@@ -208,6 +206,7 @@ class AddItem extends StatelessWidget {
                         onTap: () {
                           addUpdateBloc.clothModel = clothModel ??
                               ClothModel(
+                                  revenue: 0,
                                   date: DateTime.now(),
                                   sellerID: '',
                                   name: '',
@@ -221,7 +220,8 @@ class AddItem extends StatelessWidget {
                                   price: 0,
                                   tags: '',
                                   metaTitle: '',
-                                  metaDescription: '');
+                                  metaDescription: '',
+                                  reservableCount: {});
                           if (formkey.currentState!.validate()) {
                             addUpdateBloc.clothModel.sellerID =
                                 context.read<LoginBloc>().sellerModel!.email;
@@ -233,6 +233,8 @@ class AddItem extends StatelessWidget {
                             addUpdateBloc.clothModel.fit = fit;
                             addUpdateBloc.clothModel.size =
                                 multiDdBloc.countMap;
+                            addUpdateBloc.clothModel.reservableCount =
+                                multiDdBloc.reservable;
                             addUpdateBloc.clothModel.images =
                                 itemimageaddBloc.images;
                             addUpdateBloc.clothModel.brand =

@@ -12,8 +12,13 @@ int totalItemsLeft(ClothModel clothModel) {
   var totalCount = clothModel.size.values.fold<int>(
     0,
     (s, e) {
-      return s + (e[0] as int);
+      return s + int.parse(e.toString());
     },
   );
   return totalCount - soldCount;
+}
+
+int itemsLeftForSelectedSize(ClothModel item, String size)
+{
+  return int.parse(item.size[size].toString())-(item.soldCount.containsKey(size)?int.parse(item.soldCount[size].toString()):0);
 }

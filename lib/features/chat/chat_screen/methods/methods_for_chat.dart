@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+
 import 'package:flutter/material.dart';
 
 import '../../../../ themes/themes.dart';
@@ -22,8 +23,15 @@ List<Widget> convertToWidget(Map<DateTime, List<MessageModel>> map) {
   log(map.toString());
   List<Widget> widgets = [];
   for (var element in map.keys) {
-    // log()
-    
+    String date=dateString(element);
+    if(DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day)==element)
+    {
+      date='today';
+    }
+    if(DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day-1)==element)
+    {
+      date='yesterday';
+    }
     for (var element1 in map[element]!) {
       widgets.add(MessageTile(
         messageModel: element1,
@@ -37,7 +45,7 @@ List<Widget> convertToWidget(Map<DateTime, List<MessageModel>> map) {
           const Expanded(child: Divider()),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(dateString(element),style: greyTextStyle,),
+            child: Text(date,style: greyTextStyle,),
           ),
           const Expanded(child: Divider()),
         ],

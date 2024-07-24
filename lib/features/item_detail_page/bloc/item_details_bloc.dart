@@ -10,9 +10,16 @@ part 'item_details_state.dart';
 class ItemDetailsBloc extends Bloc<ItemDetailsEvent, ItemDetailsState> {
   ClothModel item;
    String? selectedSize;
+  int page = 1;
   ItemDetailsBloc({required this.item}) : super(ItemDetailsInitial()) {
     on<ItemDetailsChangedEvent>(itemDetailChangedEvent);
     on<ItemDetailsSizeChangedEvent>(itemDetailsSizeChangedEvent);
+    on<ItemDetailsPageSwitchEvent>(itemDetailsPageSwitchEvent);
+  }
+FutureOr<void> itemDetailsPageSwitchEvent(
+      ItemDetailsPageSwitchEvent event, Emitter<ItemDetailsState> emit) {
+    page = event.index;
+    emit(ItemDetailsPageChangedState());
   }
 
   FutureOr<void> itemDetailChangedEvent(

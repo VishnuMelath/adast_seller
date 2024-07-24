@@ -9,6 +9,7 @@ import 'package:adast_seller/features/inventory/UI/inventory.dart';
 import 'package:adast_seller/features/inventory/bloc/inventory_bloc.dart';
 import 'package:adast_seller/features/login_screen/UI/login_screen.dart';
 import 'package:adast_seller/features/login_screen/bloc/login_bloc.dart';
+import 'package:adast_seller/features/reservations/UI/reservation.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +20,7 @@ class DrawerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DrawerBloc drawerBloc = DrawerBloc();
+    DrawerBloc drawerBloc = context.read();
 
     return Scaffold(
       appBar: AppBar(
@@ -150,7 +151,7 @@ class DrawerPage extends StatelessWidget {
                   child: const InventoryPage(),
                 );
               case 2:
-                return const Center(child: Text('Reservations'));
+                return const ReservationsList();
               case 3:
                 return BlocProvider(
                   create: (context) => ChatListBloc(),

@@ -8,6 +8,7 @@ part 'multi_dd_state.dart';
 
 class MultiDdBloc extends Bloc<MultiDdEvent, MultiDdState> {
     Map<String, dynamic> countMap={};
+    Map<String, dynamic> reservable={};
   MultiDdBloc() : super(MultiDdInitial()) {
     on<MultiDdSelectedEvent>(multiDdSelectedEvent);
      on<MultiDdUnSelectedEvent>(multiDdUnSelectedEvent);
@@ -17,7 +18,8 @@ class MultiDdBloc extends Bloc<MultiDdEvent, MultiDdState> {
     for (var element in event.sized) {
       if(!countMap.containsKey(element))
       {
-        countMap[element]=[0,0];
+        countMap[element]=0;
+        reservable[element]=0;
       }
     }
     emit(MultiDdOptionChangedState());
@@ -26,5 +28,6 @@ class MultiDdBloc extends Bloc<MultiDdEvent, MultiDdState> {
 
   FutureOr<void> multiDdUnSelectedEvent(MultiDdUnSelectedEvent event, Emitter<MultiDdState> emit) {
     countMap.remove(event.size);
+    reservable.remove(event.size);
   }
 }
