@@ -37,7 +37,7 @@ class AddBloc extends Bloc<AddEvent, AddState> {
       bool flag = false;
       clothModel.size.forEach(
         (key, value) {
-          if (value < clothModel.reservableCount[key]) {
+          if (int.parse(value.toString()) < int.parse(clothModel.reservableCount[key].toString())) {
             flag = true;
           }
         },

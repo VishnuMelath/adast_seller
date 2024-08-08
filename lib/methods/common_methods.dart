@@ -1,6 +1,8 @@
 
 
 
+import 'package:intl/intl.dart';
+
 import '../ themes/constants.dart';
 
 String capitalize(String string)
@@ -15,6 +17,7 @@ String dateString(DateTime date)
 
 String dateTimeString(DateTime date)
 {
+  var f=NumberFormat('#00.##');
   String ampm=date.hour<12?'am':'pm';
-  return capitalize('${month[date.month]!} ${date.day} ,${date.year} (${date.hour%12}:${date.minute} $ampm)') ;
+  return capitalize('${month[date.month]!} ${date.day} ,${date.year} (${date.hour%12==0?12:date.hour%12}:${f.format(date.minute)} $ampm)') ;
 }

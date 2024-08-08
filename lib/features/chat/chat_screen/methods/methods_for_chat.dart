@@ -41,13 +41,14 @@ List<Widget> convertToWidget(Map<DateTime, List<MessageModel>> map) {
     widgets.add(Padding(
       padding: const EdgeInsets.all(15.0),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Expanded(child: Divider()),
+        
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(date,style: greyTextStyle,),
+            child: Text(date,style: greySmallTextStyle,),
           ),
-          const Expanded(child: Divider()),
+          
         ],
       ),
     ));

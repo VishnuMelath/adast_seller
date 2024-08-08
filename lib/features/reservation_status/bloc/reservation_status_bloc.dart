@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 
-
 import 'package:adast_seller/%20themes/constants.dart';
 import 'package:adast_seller/models/user_model.dart';
 import 'package:adast_seller/services/reservation_databaase_services.dart';
@@ -23,7 +22,7 @@ class ReservationStatusBloc
   UserModel? userModel;
   ReservationModel reservationModel;
   ClothModel? clothModel;
-  bool reload=false;
+  bool reload = false;
   ReservationStatusBloc({required this.reservationModel})
       : super(ReservationStatusInitial()) {
     on<ReservationTileLoadingEvent>(reservationTileLoadingEvent);
@@ -50,15 +49,24 @@ class ReservationStatusBloc
     emit(ReservationTileLoadedState());
   }
 
-  FutureOr<void> reservationMarkAsSoldEvent(ReservationMarkAsSoldEvent event, Emitter<ReservationStatusState> emit) async{
-    try{
+  FutureOr<void> reservationMarkAsSoldEvent(ReservationMarkAsSoldEvent event,
+      Emitter<ReservationStatusState> emit) async {
+    try {
       emit(ReservationTileLoadingState());
-      reservationModel.status=ReservationStatus.purchased.name;
+      reservationModel.status = ReservationStatus.purchased.name;
+      reservationModel.purchasedDate = DateTime.now();
       await ReservationDatabaseServices().updateReservation(reservationModel);
-      await SellerDatabaseServices().updateSellerWallet((clothModel!.price*100)-reservationModel.amount, reservationModel.sellerId);
-      reload=true;
+      await ItemDatabaseServices().updateItemRevenue(
+          reservationModel.itemId,
+          (clothModel!.price * 100) - reservationModel.amount,
+          reservationModel.size,
+          clothModel!.soldCount.containsKey(reservationModel.size));
+      await SellerDatabaseServices().updateSellerWallet(
+          (clothModel!.price * 100) - reservationModel.amount,
+          reservationModel.sellerId);
+      reload = true;
       emit(ReservationTileLoadedState());
-    }on FirebaseException catch (e) {
+    } on FirebaseException catch (e) {
       log(e.code);
     }
   }

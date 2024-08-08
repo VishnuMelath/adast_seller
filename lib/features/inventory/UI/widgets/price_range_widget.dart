@@ -12,6 +12,12 @@ class PriceRangeWidget extends StatefulWidget {
 
 class _PriceRangeWidgetState extends State<PriceRangeWidget> {
   @override
+  void initState() {
+    super.initState();
+     widget.inventoryBloc.priceRangeValues=RangeValues(widget.inventoryBloc.minPrice.toDouble(), widget.inventoryBloc.maxPrice.toDouble());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0,horizontal: 15),
@@ -27,7 +33,8 @@ class _PriceRangeWidgetState extends State<PriceRangeWidget> {
            ),
           RangeSlider(
             divisions: 1000,
-            max: 10000,
+            min: widget.inventoryBloc.minPrice.toDouble(),
+            max: widget.inventoryBloc.maxPrice.toDouble(),
             labels: RangeLabels(widget.inventoryBloc.priceRangeValues.start.round().toString(),
                 widget.inventoryBloc.priceRangeValues.end.round().toString()),
             values: widget.inventoryBloc.priceRangeValues,

@@ -1,5 +1,7 @@
 
 
+import 'package:adast_seller/methods/encrypt.dart';
+import 'package:adast_seller/models/transaction_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/reservation_model.dart';
@@ -27,15 +29,30 @@ class ReservationDatabaseServices {
     }
   }
 
-  Future<List<ReservationModel>> loadReservations(String userId) async {
+  Future<List<ReservationModel>> loadReservations(String sellerId) async {
     try {
       final snapshots = await firebaseInstance
           .collection('reservations')
-          .where('sellerId', isEqualTo: userId)
+          .where('sellerId', isEqualTo: encryptData(sellerId))
           .get();
       return snapshots.docs
           .map(
             (e) => ReservationModel.fromSnapShot(e),
+          )
+          .toList();
+    } on FirebaseException {
+ 
+      rethrow;
+    }
+  }Future<List<TransactionModel>> loadTransactionsFromReservations(String sellerId) async {
+    try {
+      final snapshots = await firebaseInstance
+          .collection('reservations')
+          .where('sellerId', isEqualTo: encryptData(sellerId))
+          .get();
+      return snapshots.docs
+          .map(
+            (e) => TransactionModel.fromReservationModel(ReservationModel.fromSnapShot(e)),
           )
           .toList();
     } on FirebaseException {

@@ -11,3 +11,5 @@ const Color grey=Colors.grey;
  Color backgroundColor=greentransparent.withOpacity(0.1);
 
  Color drawerColor =const Color.fromARGB(255, 240, 255, 240);
+
+  Color red=Colors.red[800]!;

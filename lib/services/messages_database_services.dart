@@ -1,4 +1,5 @@
 
+import 'package:adast_seller/methods/encrypt.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/chat_room_model.dart';
@@ -30,7 +31,7 @@ class MessagesDatabaseServices {
       String chatRoomId) async* {
     final snapshot = firebaseFirestore
         .collection('messages')
-        .where('roomId', isEqualTo: chatRoomId);
+        .where('roomId', isEqualTo: encryptData(chatRoomId));
     yield* snapshot.snapshots();
   }
 

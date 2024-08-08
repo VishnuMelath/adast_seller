@@ -19,7 +19,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
   FutureOr<void> registerButtonEvent(RegisterButtonEvent event, Emitter<RegisterState> emit) async{
     emit(RegisterButtomPressedState());
-    var user=SellerModel( name: event.nameController.text, email: event.emailController.text,place: '' );
+    var user=SellerModel( name: event.nameController.text, email: event.emailController.text,place: '' ,creationTime: DateTime.now());
     if(event.formkey.currentState!.validate())
     {
       try{

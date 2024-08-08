@@ -85,7 +85,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       } else {
                         return CustomButton(
                             onTap: () {
-                              context.read<LoginBloc>().sellerModel=SellerModel(place: '',name: '', email: emailController.text);
+                              context.read<LoginBloc>().sellerModel=SellerModel(place: '',name: '', email: emailController.text,creationTime: DateTime.now());
                               registerBloc.add(RegisterButtonEvent(
                                   formkey: formkey,
                                   emailController: emailController,

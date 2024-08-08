@@ -12,11 +12,13 @@ part 'inventory_event.dart';
 part 'inventory_state.dart';
 
 class InventoryBloc extends Bloc<InventoryEvent, InventoryState> {
-  String searchQuery='';
+  String searchQuery = '';
+  int maxPrice = 100;
+  int minPrice = 0;
   List<ClothModel> items = [];
   Set<ClothModel> showingItems = {};
   Set<String> brands = {};
-  Set<String> categories={};
+  Set<String> categories = {};
   List<String> selectedBrands = [];
   List<String> selectedFabric = [];
   List<String> selectedFit = [];
@@ -30,31 +32,32 @@ class InventoryBloc extends Bloc<InventoryEvent, InventoryState> {
     on<InventoryClearFilterEvent>(inventoryClearFilterEvent);
   }
 
-  FutureOr<void> inventoryClearFilterEvent(InventoryClearFilterEvent event, Emitter<InventoryState> emit) async{
+  FutureOr<void> inventoryClearFilterEvent(
+      InventoryClearFilterEvent event, Emitter<InventoryState> emit) async {
     emit(InventoryLoadingState());
     selectedBrands.clear();
     selectedCategory.clear();
     selectedFabric.clear();
     selectedFit.clear();
     priceRangeValues = const RangeValues(0, 10000);
-    sortOption=0;
+    sortOption = 0;
     showingItems.addAll(items);
-    
-   await Future.delayed(const Duration(milliseconds: 200));
-    emit(InventoryLoadedState());
 
+    await Future.delayed(const Duration(milliseconds: 200));
+    emit(InventoryLoadedState());
   }
+
   FutureOr<void> inventorySearchEvent(
-      InventorySearchEvent event, Emitter<InventoryState> emit) async{
+      InventorySearchEvent event, Emitter<InventoryState> emit) async {
     emit(InventoryLoadingState());
     showingItems.clear();
     log('${sortOption}sort option');
-showingItems.addAll(items.where(
+    showingItems.addAll(items.where(
       (element) => element.name.contains(searchQuery),
     ));
     if (selectedBrands.isNotEmpty) {
       log(selectedBrands.toString());
-      showingItems=showingItems.where(
+      showingItems = showingItems.where(
         (e) {
           log(e.brand);
           return selectedBrands.contains(e.brand);
@@ -63,7 +66,7 @@ showingItems.addAll(items.where(
     }
     if (selectedCategory.isNotEmpty) {
       log(showingItems.length.toString());
-      showingItems=showingItems.where(
+      showingItems = showingItems.where(
         (e) {
           log(e.category);
           return selectedCategory.contains(e.category);
@@ -73,24 +76,29 @@ showingItems.addAll(items.where(
     }
     if (selectedFabric.isNotEmpty) {
       log(selectedFabric.toString());
-      showingItems=showingItems.where(
-        (e) => selectedFabric.contains(e.material),
-      ).toSet();
+      showingItems = showingItems
+          .where(
+            (e) => selectedFabric.contains(e.material),
+          )
+          .toSet();
     }
     if (selectedFit.isNotEmpty) {
       log(selectedFit.toString());
-      showingItems=showingItems.where(
-        (e) => selectedFit.contains(e.fit),
-      ).toSet();
+      showingItems = showingItems
+          .where(
+            (e) => selectedFit.contains(e.fit),
+          )
+          .toSet();
     }
-    
-    showingItems=showingItems.where(
-      (element) =>
-          element.price <= priceRangeValues.end &&
-          element.price >= priceRangeValues.start,
-    ).toSet();
 
-    
+    showingItems = showingItems
+        .where(
+          (element) =>
+              element.price <= priceRangeValues.end &&
+              element.price >= priceRangeValues.start,
+        )
+        .toSet();
+
     if (sortOption != 0) {
       log(sortOption.toString());
       var temp = showingItems.toList();
@@ -113,25 +121,23 @@ showingItems.addAll(items.where(
           break;
         //item left ascending order
         case 5:
-          temp.sort((a, b) =>totalItemsLeft(a).compareTo(totalItemsLeft(b)));
+          temp.sort((a, b) => totalItemsLeft(a).compareTo(totalItemsLeft(b)));
           break;
         //itemleft desc order
         case 6:
-          temp.sort((a, b) =>totalItemsLeft(b).compareTo(totalItemsLeft(a)));
+          temp.sort((a, b) => totalItemsLeft(b).compareTo(totalItemsLeft(a)));
           break;
-        
+
         default:
           break;
       }
-      showingItems=temp.toSet();
+      showingItems = temp.toSet();
     }
-    if(showingItems.isEmpty)
-    {
+    if (showingItems.isEmpty) {
       emit(InventoryEmptyState());
-    }
-    else {
+    } else {
       await Future.delayed(const Duration(milliseconds: 200));
-      
+
       emit(InventoryLoadedState());
     }
   }
@@ -141,11 +147,17 @@ showingItems.addAll(items.where(
     emit(InventoryLoadingState());
     try {
       items = await ItemDatabaseServices().getAllItems(event.email);
-      for(var item in items)
-      {
+      minPrice = items.first.price;
+      for (var item in items) {
+        if (item.price < minPrice) {
+          minPrice = item.price;
+        }
+        if (item.price > maxPrice) {
+          maxPrice = item.price;
+        }
         brands.add(item.brand);
         categories.add(item.category);
-      }  
+      }
 
       showingItems = items.toSet();
       if (items.isEmpty) {
@@ -162,6 +174,4 @@ showingItems.addAll(items.where(
       InventoryAddButtonPressedEvent event, Emitter<InventoryState> emit) {
     emit(InventoryNavigateToAddItemState());
   }
-
-  
 }

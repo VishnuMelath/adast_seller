@@ -51,7 +51,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       sellerModel = await SellerDatabaseServices().getSellerData(result.$1!);
       emit(LoginNavigateToHomeState(sellerModel: sellerModel!));
     } else {
-      sellerModel = SellerModel(email: result.$1!, name: '',place: '');
+      sellerModel = SellerModel(email: result.$1!, name: '',place: '',creationTime: DateTime.now());
       emit(LoginNavigateToCompleteProfileState(sellerModel: sellerModel!));
     }
   }

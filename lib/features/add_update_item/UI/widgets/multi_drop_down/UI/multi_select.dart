@@ -60,7 +60,7 @@ class CustmMultiselectionDropdownT extends StatelessWidget {
             List<Widget> widgets = [];
             multiDdBloc.countMap.forEach(
               (key, value) {
-                int value1 = multiDdBloc.reservable[key] ?? 0;
+                int value1 = int.parse((multiDdBloc.reservable[key] ?? 0).toString());
                 TextEditingController controller0 =
                     TextEditingController(text: value.toString());
                 TextEditingController controller1 =

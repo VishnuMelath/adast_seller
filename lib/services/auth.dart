@@ -98,8 +98,8 @@ class LoginService {
     try {
       final FirebaseAuth auth = FirebaseAuth.instance;
       final user = auth.currentUser;
-      log(user?.email ?? 'no user');
       if (user != null) {
+        
         return await SellerDatabaseServices().getSellerData(user.email!);
       } else {
         return null;

@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../methods/encrypt.dart';
+
 class ClothModel {
   String? id;
   String sellerID;
@@ -47,46 +49,49 @@ class ClothModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'sellerID': sellerID,
-      'name': name,
-      'description': description,
-      'category': category,
-      'fit': fit,
+      'sellerID': encryptData(sellerID),
+      'name': encryptData(name),
+      'description': encryptData(description),
+      'category': encryptData(category),
+      'fit': encryptData(fit),
       'size': size,
-      'images': images,
-      'reservedCount': reservedCount,'reservableCount':reservableCount,
+      'images': images.map((image) => encryptData(image.toString())).toList(),
+      'reservedCount': reservedCount,
+      'reservableCount': reservableCount,
       'soldCount': soldCount,
-      'brand': brand,
-      'material': material,
+      'brand': encryptData(brand),
+      'material': encryptData(material),
       'price': price,
-      'tags': tags,
-      'metaTitle': metaTitle,
-      'metaDescription': metaDescription,
+      'tags': encryptData(tags),
+      'metaTitle': encryptData(metaTitle),
+      'metaDescription': encryptData(metaDescription),
       'date': Timestamp.fromDate(date),
-      'revenue': revenue
+      'revenue': revenue,
     };
   }
 
-  factory ClothModel.fromJson(Map<String, dynamic> map, String id) {
+factory ClothModel.fromJson(Map<String, dynamic> map, String id) {
     log(map['size'].toString());
     return ClothModel(
-        id: id,
-        sellerID: map['sellerID'],
-        name: map['name'],
-        brand: map['brand'],
-        date: map['date'].toDate(),reservableCount: map['reservableCount'],
-        category: map['category'],
-        description: map['description'],
-        fit: map['fit'],
-        images: map['images'],
-        material: map['material'],
-        metaDescription: map['metaDescription'],
-        metaTitle: map['metaTitle'],
-        price: map['price'],
-        size: map['size'],
-        tags: map['tags'],
-        reservedCount: map['reservedCount'],
-        soldCount: map['soldCount'],
-        revenue: map.containsKey('revenue') ? map['revenue'] : 0);
+      id: id,
+      sellerID: decryptData(map['sellerID']),
+      name: decryptData(map['name']),
+      brand: decryptData(map['brand']),
+      date: (map['date'] as Timestamp).toDate(),
+      reservableCount: map['reservableCount'],
+      category: decryptData(map['category']),
+      description: decryptData(map['description']),
+      fit: decryptData(map['fit']),
+      images: map['images'].map((image) => decryptData(image)).toList(),
+      material: decryptData(map['material']),
+      metaDescription: decryptData(map['metaDescription']),
+      metaTitle: decryptData(map['metaTitle']),
+      price: map['price'],
+      size: map['size'],
+      tags: decryptData(map['tags']),
+      reservedCount: map['reservedCount'],
+      soldCount: map['soldCount'],
+      revenue: map.containsKey('revenue') ? map['revenue'] : 0,
+    );
   }
 }

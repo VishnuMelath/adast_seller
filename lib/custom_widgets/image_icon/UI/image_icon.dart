@@ -70,6 +70,10 @@ class ImageIconWidget extends StatelessWidget {
               builder: (context, state) {
                
                 var loading = false;
+                if(imageIconBloc.imageUrl!=null)
+                {
+                  imageAddress=imageIconBloc.imageUrl!;
+                }
                 if (state is ImageIconChangedState) {
                   loading = state.loading;
                   if (state.imageUrl != null) {

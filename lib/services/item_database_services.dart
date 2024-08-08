@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:adast_seller/methods/encrypt.dart';
 import 'package:adast_seller/models/cloth_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -19,6 +20,23 @@ class ItemDatabaseServices {
     try {
       final document = firestore.collection('items').doc(item.id);
       await document.set(item.toMap());
+    } on FirebaseException catch (e) {
+      log(e.toString());
+    }
+  }
+    Future<void> updateItemReserved(String id,String size) async {
+    try {
+      final document = firestore.collection('items').doc(id);
+      await document.update({'reservedCount.$size':FieldValue.increment(-1),});
+    } on FirebaseException catch (e) {
+      log(e.toString());
+    }
+  }
+    Future<void> updateItemRevenue(String id,int revenueInc,String size,[bool check=true]) async {
+    try {
+      log(revenueInc.toString());
+      final document = firestore.collection('items').doc(id);
+      await document.update({'revenue':FieldValue.increment(revenueInc),'soldCount.$size':check?FieldValue.increment(1):1});
     } on FirebaseException catch (e) {
       log(e.toString());
     }
@@ -46,7 +64,7 @@ class ItemDatabaseServices {
   Future<List<ClothModel>> getAllItems(String email) async {
     try {
       final sellersCollection = firestore.collection('items');
-      Query userQuery = sellersCollection.where('sellerID', isEqualTo: email).orderBy('date',descending: true);
+      Query userQuery = sellersCollection.where('sellerID', isEqualTo: encryptData(email)).orderBy('date',descending: true);
       QuerySnapshot<Object?> itemsnap = await userQuery.get();
       return itemsnap.docs.map(
         (e) {
@@ -67,7 +85,7 @@ class ItemDatabaseServices {
     try {
       final sellersCollection =
           firestore.collection('items').orderBy(sortby, descending: descending);
-      Query userQuery = sellersCollection.where('sellerID', isEqualTo: email);
+      Query userQuery = sellersCollection.where('sellerID', isEqualTo: encryptData(email));
       QuerySnapshot<Object?> itemsnap = await userQuery.get();
       return itemsnap.docs.map(
         (e) {

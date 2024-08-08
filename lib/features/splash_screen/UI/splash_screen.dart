@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:adast_seller/features/drawer/UI/drawer.dart';
 import 'package:adast_seller/features/drawer/bloc/drawer_bloc.dart';
 import 'package:adast_seller/features/login_screen/bloc/login_bloc.dart';
@@ -28,17 +30,13 @@ class _SplashScreenState extends State<SplashScreen> {
       body: BlocConsumer<SplashscreenBloc, SplashscreenState>(
         bloc: splashscreenBloc,
         builder: (context, state) {
-          switch (state.runtimeType) {
-            case const (SplashLoginCheckingState):
-              return Center(
+           return Center(
                 child: Image.asset('assets/images/logo.png'),
               );
-            default:
-              return const SizedBox();
-          }
         },
         listener: (context, state) {
           if (state is SplashNavigateToHomeState) {
+            log(state.sellerModel.toString());
             context.read<LoginBloc>().sellerModel=state.sellerModel;
             Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> BlocProvider(
               create: (context) => DrawerBloc(),

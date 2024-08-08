@@ -3,17 +3,18 @@ import 'package:adast_seller/%20themes/constants.dart';
 import 'package:adast_seller/%20themes/themes.dart';
 import 'package:adast_seller/features/chat/chat_list/UI/chat_list_page.dart';
 import 'package:adast_seller/features/chat/chat_list/bloc/chat_list_bloc.dart';
-import 'package:adast_seller/features/drawer/UI/cutom_drawer_option.dart';
+import 'package:adast_seller/features/dashboard/UI/dashboard.dart';
+import 'package:adast_seller/features/drawer/UI/widgets/cutom_drawer_option.dart';
 import 'package:adast_seller/features/drawer/bloc/drawer_bloc.dart';
 import 'package:adast_seller/features/inventory/UI/inventory.dart';
 import 'package:adast_seller/features/inventory/bloc/inventory_bloc.dart';
-import 'package:adast_seller/features/login_screen/UI/login_screen.dart';
 import 'package:adast_seller/features/login_screen/bloc/login_bloc.dart';
 import 'package:adast_seller/features/reservations/UI/reservation.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:adast_seller/features/revenue/UI/revenue.dart';
+import 'package:adast_seller/features/settings/UI/settings.dart';
+import 'package:adast_seller/features/settings/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shimmer/shimmer.dart';
 
 class DrawerPage extends StatelessWidget {
   const DrawerPage({super.key});
@@ -21,7 +22,7 @@ class DrawerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DrawerBloc drawerBloc = context.read();
-
+    SettingsBloc settingsBloc = SettingsBloc();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: backgroundColor,
@@ -43,59 +44,49 @@ class DrawerPage extends StatelessWidget {
         ),
       ),
       drawer: Drawer(
+        width: 270,
         backgroundColor: drawerColor,
-        child: BlocListener<DrawerBloc, DrawerState>(
-          bloc: drawerBloc,
-          listener: (context, state) {
-            if (state is DrawerLogoutPressedState) {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const LoginScreen(),
-                ),
-                (route) => false,
-              );
-            }
-          },
-          child: Column(
+        child: BlocBuilder<SettingsBloc, SettingsState>(
+          bloc: settingsBloc,
+          builder: (context, state) {
+          
+            return  Column(
             children: [
               Container(
                 width: double.infinity,
-                color: green,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                          context.watch<LoginBloc>().sellerModel!.image!,
+                        ))),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 38.0,
+                    Container(
+                      decoration: BoxDecoration(
+                        color: green,
+                        gradient: LinearGradient(
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                            colors: [
+                              Colors.black.withOpacity(0.6),
+                              backgroundColor,
+                            ],
+                            stops: const [0.0, 1.0],
+                            tileMode: TileMode.clamp),
                       ),
-                      child: CircleAvatar(
-                        radius: 60,
-                        child: ClipOval(
-                          child: CachedNetworkImage(
-                            imageUrl:
-                                context.watch<LoginBloc>().sellerModel!.image!,
-                            fit: BoxFit.cover, // Fills the circle
-                            placeholder: (context, url) => Shimmer.fromColors(
-                              baseColor: Colors.grey[300]!,
-                              highlightColor: green,
-                              child: Container(
-                                color: Colors.grey[300],
-                                height: 200,
-                              ),
-                            ),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
+                      height: 250,
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            context.watch<LoginBloc>().sellerModel!.name,
+                            style: whiteHeadTextStyle,
                           ),
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        context.watch<LoginBloc>().sellerModel!.name,
-                        style: whiteHeadTextStyle,
                       ),
                     )
                   ],
@@ -126,16 +117,10 @@ class DrawerPage extends StatelessWidget {
                   );
                 },
               ),
-              TextButton(
-                  onPressed: () {
-                    drawerBloc.add(DrawerLogoutPressedEvent());
-                  },
-                  child: Text(
-                    'Logout',
-                    style: redTextStyle,
-                  ))
             ],
-          ),
+          );
+          },
+        
         ),
       ),
       body: BlocBuilder(
@@ -144,7 +129,7 @@ class DrawerPage extends StatelessWidget {
           if (state is DrawerOptionState) {
             switch (state.index) {
               case 0:
-                return const Center(child: Text('Dashboard'));
+                return const Dashboard();
               case 1:
                 return BlocProvider(
                   create: (context) => InventoryBloc(),
@@ -158,14 +143,17 @@ class DrawerPage extends StatelessWidget {
                   child: const ChatListPage(),
                 );
               case 4:
-                return const Center(child: Text('Revenue'));
+                return const RevenuePage();
               case 5:
-                return const Center(child: Text('Settings'));
+                return BlocProvider(
+                  create: (context) => settingsBloc,
+                  child: const SettingsPage(),
+                );
               default:
-                return const Center(child: Text('Dashboard'));
+                return const Dashboard();
             }
           } else {
-            return const Center(child: Text('Dashboard'));
+            return const Dashboard();
           }
         },
       ),

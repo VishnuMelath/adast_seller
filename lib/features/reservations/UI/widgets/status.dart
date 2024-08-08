@@ -33,7 +33,7 @@ Widget statusWidget1(ReservationModel reservation) {
       : reservation.reservationTime
               .add(Duration(days: reservation.days))
               .isBefore(DateTime.now())
-          ? 'Got cancelled'
+          ? 'Failed'
           : '$difference time left of reservation time';
   return Align(
     alignment: Alignment.bottomLeft,
@@ -41,7 +41,8 @@ Widget statusWidget1(ReservationModel reservation) {
       text,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
-      style: greyMediumTextStyle,
+      style:reservation.status == ReservationStatus.purchased.name
+      ? greenmediumTextStyle:redmediumTextStyle,
     ),
   );
 }

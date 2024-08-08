@@ -16,7 +16,9 @@ List<String> drawerOptions = [
   'Settings'
 ];
 Map<String, IconData> icons = {
+  'Terms and Conditions':Icons.newspaper,
   'Email Address': Icons.email,
+  'Place':Icons.place,
   'Password': Icons.lock_open,
   'Name': Icons.person,
   'Confirm Password': Icons.password,
@@ -35,7 +37,8 @@ Map<String, IconData> icons = {
   'Reservations': Icons.book,
     'Inbox': Icons.message,
   'Revenue': Icons.attach_money,
-  'Search':Icons.search
+  'Search':Icons.search,
+ 
 
 };
 const String imagePath =
