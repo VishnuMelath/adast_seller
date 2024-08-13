@@ -22,3 +22,10 @@ InventorySearchCompletedState({required this.searchlist});
 class InventoryEmptyState extends InventoryState{}
 
 class InventoryNavigateToAddItemState extends InventoryActionState{}
+
+class InventoryErrorState extends InventoryState{
+final String error;
+
+  InventoryErrorState({required this.error});
+
+}

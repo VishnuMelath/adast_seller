@@ -44,7 +44,11 @@ class InventoryBloc extends Bloc<InventoryEvent, InventoryState> {
     showingItems.addAll(items);
 
     await Future.delayed(const Duration(milliseconds: 200));
-    emit(InventoryLoadedState());
+   if (items.isEmpty) {
+        emit(InventoryEmptyState());
+      } else {
+        emit(InventoryLoadedState());
+      }
   }
 
   FutureOr<void> inventorySearchEvent(
@@ -147,7 +151,9 @@ class InventoryBloc extends Bloc<InventoryEvent, InventoryState> {
     emit(InventoryLoadingState());
     try {
       items = await ItemDatabaseServices().getAllItems(event.email);
-      minPrice = items.first.price;
+      if (items.isNotEmpty) {
+  minPrice = items.first.price;
+}
       for (var item in items) {
         if (item.price < minPrice) {
           minPrice = item.price;
@@ -167,6 +173,7 @@ class InventoryBloc extends Bloc<InventoryEvent, InventoryState> {
       }
     } on FirebaseException catch (e) {
       log(e.code);
+      emit(InventoryErrorState(error: e.code));
     }
   }
 

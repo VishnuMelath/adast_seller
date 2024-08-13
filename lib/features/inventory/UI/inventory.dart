@@ -88,6 +88,9 @@ class InventoryPage extends StatelessWidget {
                             style: blackTextStyle,
                           ),
                         );
+                      }else if(state is InventoryErrorState)
+                      {
+                        return Center(child: Text(state.error,style: blackTextStyle,));
                       } else if (state is InventoryLoadedState) {
                         return Padding(
                           padding: const EdgeInsets.only(top: 10),

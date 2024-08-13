@@ -44,4 +44,5 @@ app.*.map.json
 /android/app/google-services.json
 firebase.json
 lib/firebase_options.dart
-android/app/src/main/AndroidManifest.xml
+/android/secrets.properties
+/android/local.defaults.properties

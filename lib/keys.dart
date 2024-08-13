@@ -1,1 +1,0 @@
-var rpaykey='rzp_test_PEZROXbFjdHFs5';
