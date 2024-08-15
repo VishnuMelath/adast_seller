@@ -30,7 +30,7 @@ class SettingsPage extends StatelessWidget {
                 editProfile(context);
               },),
               customListTile('Privacy policy', () {
-                Navigator.push(context,MaterialPageRoute(builder: (context) => PrivacyPolicy(),));
+                Navigator.push(context,MaterialPageRoute(builder: (context) => PrivacyPolicyPage(),));
               },),
               customListTile('Terms and Conditions', () {
                 Navigator.push(context,MaterialPageRoute(builder: (context) =>const TermsConditionsPage(),));

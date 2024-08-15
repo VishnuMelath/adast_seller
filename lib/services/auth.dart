@@ -81,7 +81,6 @@ class LoginService {
           accessToken: gAuth.accessToken, idToken: gAuth.idToken);
 
       await _auth.signInWithCredential(credential).then((user) async {
-        log(user.additionalUserInfo.toString());
         map = user.additionalUserInfo;
       });
     } on FirebaseException catch (e) {

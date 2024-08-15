@@ -27,9 +27,9 @@ class SellerModel {
     return {
       'emailaddress': encryptData(email),
       'image': image != null ? encryptData(image!) : null,
-      'name': encryptData(name),
-      'latlng': latLng,
-      'place': encryptData(place),
+      'name': encryptData(name)??encryptData('test'),
+      'latlng': latLng??GeoPoint(0,0),
+      'place': encryptData(place)??encryptData('test'),
       'wallet': wallet,
       'creationTime': Timestamp.fromDate(creationTime),
     };

@@ -21,7 +21,6 @@ class ChatListPage extends StatelessWidget {
       child: SafeArea(
         child: Scaffold(
           backgroundColor: backgroundColor,
-          
           body: BlocBuilder<ChatListBloc, ChatListState>(
             builder: (context, state) {
               if(state is ChatListLoadingState)
