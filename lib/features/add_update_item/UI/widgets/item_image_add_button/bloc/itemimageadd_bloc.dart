@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:adast_seller/features/add_update_item/UI/widgets/item_image_add_button/methods/image_pick.dart';
 import 'package:adast_seller/methods/network_check.dart';

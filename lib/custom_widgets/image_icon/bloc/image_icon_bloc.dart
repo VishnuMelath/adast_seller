@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:adast_seller/custom_widgets/image_icon/methods/methods.dart';
 import 'package:adast_seller/services/firebase_storage_services.dart';
