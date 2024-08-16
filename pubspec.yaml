@@ -57,6 +57,7 @@ dependencies:
   url_launcher: ^6.3.0
   encrypt: ^5.0.3
   flutter_launcher_icons: ^0.13.1
+  google_maps_flutter_web: ^0.5.10
 
 
 dev_dependencies:

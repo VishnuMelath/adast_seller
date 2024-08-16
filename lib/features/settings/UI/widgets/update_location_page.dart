@@ -11,21 +11,18 @@ import 'package:adast_seller/features/drawer/UI/drawer.dart';
 import 'package:adast_seller/features/drawer/bloc/drawer_bloc.dart';
 import 'package:adast_seller/features/login_screen/bloc/login_bloc.dart';
 import 'package:adast_seller/features/map/bloc/map_bloc.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class MapScreen extends StatefulWidget {
-  const MapScreen({super.key});
+class UpdateLocation extends StatefulWidget {
+  const UpdateLocation({super.key});
 
   @override
-  State<MapScreen> createState() => _MapScreenState();
+  State<UpdateLocation> createState() => _UpdateLocationState();
 }
 
-class _MapScreenState extends State<MapScreen> {
-  bool bottomsheet = false;
-  bool map=true;
+class _UpdateLocationState extends State<UpdateLocation> {
   GlobalKey<FormState> formkey = GlobalKey();
   final Set<Marker> markers = {};
   LatLng center = const LatLng(11.2588, 75.7804);
@@ -76,9 +73,8 @@ class _MapScreenState extends State<MapScreen> {
             if (state is MapBottomSheetState) {
               imageIconBloc = ImageIconBloc();
 
-              showModalBottomSheet(
+              showBottomSheet(
                 // useSafeArea: true,
-                isDismissible: false,
                 context: context,
                 builder: (context) => Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -87,18 +83,6 @@ class _MapScreenState extends State<MapScreen> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Row(
-                          children: [
-                            IconButton(
-                                onPressed: () async{
-                                  await Future.delayed(Duration(milliseconds: 50));
-
-                                  bottomsheet=false;
-                                  Navigator.pop(context);
-                                },
-                                icon: Icon(Icons.close))
-                          ],
-                        ),
                         Row(
                           children: [
                             Padding(
@@ -141,28 +125,19 @@ class _MapScreenState extends State<MapScreen> {
             }
           },
           builder: (context, state) {
-
             return Stack(
               alignment: Alignment.topCenter,
               children: [
                 GoogleMap(
                   markers: markers,
-
                   onTap: (latlng) {
-                 
-                    if (kIsWeb) {
-                      if (!bottomsheet) {
-                        bottomsheet = true;
-                        mapBloc.add(MapTapedEvent(latLng: latlng));
-                      }
-                    } else {
-                      mapBloc.add(MapTapedEvent(latLng: latlng));
-                    }
+                    log(markers.length.toString());
+                    mapBloc.add(MapTapedEvent(latLng: latlng));
                   },
                   mapType: MapType.normal,
                   zoomControlsEnabled: false,
                   myLocationEnabled: true,
-                  // myLocationButtonEnabled: true,
+                  myLocationButtonEnabled: true,
                   onMapCreated: (controller) {
                     mapController = controller;
                   },
@@ -183,7 +158,7 @@ class _MapScreenState extends State<MapScreen> {
                           style: whiteTextStyle,
                         ),
                       ),
-                    ),
+                    )
                   ),
                 )
               ],
@@ -194,5 +169,3 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 }
-
-

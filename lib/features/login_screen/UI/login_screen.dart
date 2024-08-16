@@ -80,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
             },
             child: Center(
               child: SizedBox(
-                width: kIsWeb?MediaQuery.sizeOf(context).width/2.3:null,
+                width: MediaQuery.sizeOf(context).width>MediaQuery.sizeOf(context).height?MediaQuery.sizeOf(context).width/2.3:null,
                 child: ListView(
                   children: [
                     Padding(

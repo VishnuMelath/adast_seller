@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:adast_seller/custom_widgets/image_icon/methods/methods.dart';
 import 'package:adast_seller/services/firebase_storage_services.dart';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
 
 part 'image_icon_event.dart';
 part 'image_icon_state.dart';
@@ -24,27 +24,27 @@ class ImageIconBloc extends Bloc<ImageIconEvent, ImageIconState> {
 
   FutureOr<void> cameraIconPressedEvent(
       CameraIconPressedEvent event, Emitter<ImageIconState> emit) async {
-    String? image = await pickImageFromCamera();
+   var image = await pickImageFromCamera(event.context);
     emit(ImagePickCompleteState());
     if (image != null) {
       emit(ImageIconChangedState(imageUrl: null, loading: true));
-      await FirebaseStorageServices()
-          .uploadImageToFirebase(File(image),'profileImages');
-      emit(ImageIconChangedState(imageUrl: image, loading: false));
+     var url= await FirebaseStorageServices()
+          .uploadImageToFirebase(image,'profileImages');
+      emit(ImageIconChangedState(imageUrl: url, loading: false));
     }
   }
 
   FutureOr<void> galaryIconPressedEvent(
       GalaryIconPressedEvent event, Emitter<ImageIconState> emit) async {
-    String? image = await pickImageFromGallery();
+    var image = await pickImageFromGallery(event.context);
     emit(ImagePickCompleteState());
     if (image != null) {
       emit(ImageIconChangedState(imageUrl: null, loading: true));
-      image = await FirebaseStorageServices()
-          .uploadImageToFirebase(File(image),'profileImages');
-      if (image != null) {
-        imageUrl = image;
-        emit(ImageIconChangedState(imageUrl: image, loading: false));
+     var url = await FirebaseStorageServices()
+          .uploadImageToFirebase(image,'profileImages');
+      if (url != null) {
+        imageUrl = url;
+        emit(ImageIconChangedState(imageUrl: url, loading: false));
       }
     }
   }

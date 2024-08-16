@@ -1,14 +1,14 @@
 import 'dart:developer';
-import 'dart:io';
+import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class FirebaseStorageServices {
-  Future<String?> uploadImageToFirebase(File imageFile, String path) async {
+  Future<String?> uploadImageToFirebase(Uint8List imageFile, String path) async {
     try {
       final storage = FirebaseStorage.instance;
       final filename = '${DateTime.now().millisecondsSinceEpoch}.jpg';
       final reference = storage.ref().child('$path/$filename');
-      final uploadTask = reference.putFile(imageFile);
+      final uploadTask = reference.putData(imageFile);
 
       uploadTask.snapshotEvents.listen((event) {
         final progress = event.bytesTransferred / event.totalBytes * 100;

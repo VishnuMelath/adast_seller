@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:adast_seller/features/settings/UI/about.dart';
 import 'package:adast_seller/features/settings/UI/widgets/customtile.dart';
+import 'package:adast_seller/features/settings/UI/widgets/test/test.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -32,6 +33,9 @@ class SettingsPage extends StatelessWidget {
               customListTile('Privacy policy', () {
                 Navigator.push(context,MaterialPageRoute(builder: (context) => PrivacyPolicyPage(),));
               },),
+              // customListTile('Test', () {
+              //   Navigator.push(context,MaterialPageRoute(builder: (context) => TestWidgget()));
+              // },),
               customListTile('Terms and Conditions', () {
                 Navigator.push(context,MaterialPageRoute(builder: (context) =>const TermsConditionsPage(),));
               },),

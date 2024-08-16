@@ -31,7 +31,7 @@ class ItemimageaddBloc extends Bloc<ItemimageaddEvent, ItemimageaddState> {
     try {
       for (var item in tempList) {
         var link = await FirebaseStorageServices()
-            .uploadImageToFirebase(File(item), 'item');
+            .uploadImageToFirebase(item, 'item');
         if (link != null) {
           images.add(link);
         }

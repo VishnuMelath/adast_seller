@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:adast_seller/custom_widgets/image_icon/UI/image_icon.dart';
 import 'package:adast_seller/custom_widgets/image_icon/bloc/image_icon_bloc.dart';
 import 'package:adast_seller/features/login_screen/bloc/login_bloc.dart';
+import 'package:adast_seller/features/settings/UI/widgets/test/test.dart';
 import 'package:adast_seller/models/seller_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -64,6 +65,7 @@ void editProfile(BuildContext context) {
                           child: CustomTextfield(
                               label: 'Place', controller: placeController),
                         ),
+                        
                         Row(
                           children: [
                             customSaveCancelButton(onTap: () {

@@ -1,13 +1,14 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../../../ themes/colors_shemes.dart';
 
-Future<List<String>> pickMultiImage() async {
+Future<List<Uint8List>> pickMultiImage() async {
   var images = await ImagePicker().pickMultiImage();
-  List<String> croppedImages = [];
+  List<Uint8List> croppedImages = [];
   for (var e in images) {
     await cropImage(e.path).then(
       (value) {
@@ -21,7 +22,7 @@ Future<List<String>> pickMultiImage() async {
 }
 
 
-Future<String?> cropImage(String imagePath) async {
+Future<Uint8List?> cropImage(String imagePath) async {
   var croppedFile = await ImageCropper().cropImage(
       sourcePath: imagePath,
       compressQuality: 100,
@@ -37,6 +38,6 @@ Future<String?> cropImage(String imagePath) async {
           lockAspectRatio: true,
         )
       ]);
-
-  return croppedFile?.path;
+ var temp=await croppedFile?.readAsBytes();
+  return temp;
 }

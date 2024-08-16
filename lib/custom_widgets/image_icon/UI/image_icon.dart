@@ -40,12 +40,12 @@ class ImageIconWidget extends StatelessWidget {
                     children: [
                       CustomIconButton(
                           onTap: () {
-                            imageIconBloc.add(CameraIconPressedEvent(email:context.read<LoginBloc>().sellerModel!.email ));
+                            imageIconBloc.add(CameraIconPressedEvent(email:context.read<LoginBloc>().sellerModel!.email ,context: context));
                           },
                           icon: 'Camera'),
                       CustomIconButton(
                           onTap: () async {
-                            imageIconBloc.add(GalaryIconPressedEvent(email:context.read<LoginBloc>().sellerModel!.email ));
+                            imageIconBloc.add(GalaryIconPressedEvent(email:context.read<LoginBloc>().sellerModel!.email,context: context ));
                           },
                           icon: 'Gallery')
                     ],
