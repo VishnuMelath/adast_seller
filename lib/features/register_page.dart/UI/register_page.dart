@@ -1,5 +1,6 @@
 import 'package:adast_seller/features/login_screen/bloc/login_bloc.dart';
 import 'package:adast_seller/features/map/UI/map.dart';
+import 'package:adast_seller/features/openmap/UI/openmap_page.dart';
 import 'package:adast_seller/models/seller_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,7 +46,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const MapScreen(),
+                      builder: (context) => const OpenMapScreen(),
                     ),
                   );
                 }
@@ -56,19 +57,19 @@ class _RegisterPageState extends State<RegisterPage> {
               child: ListView(
                 children: [
                   CustomTextfield(
-                    label: 'email address',
+                    label: 'Email Address',
                     controller: emailController,
                     login: false,
                   ),
                   CustomTextfield(
-                    label: 'password',
+                    label: 'Password',
                     controller: passwordController,
                     login: false,
                     password: true,
                   ),
                   CustomTextfield(
                     passController: passwordController,
-                    label: 'confirm password',
+                    label: 'Confirm Password',
                     controller: rePasswordController,
                     login: false,
                     password: true,

@@ -45,15 +45,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   FutureOr<void> loginGoogleAuthPressedEvent(
       LoginGoogleAuthPressedEvent event, Emitter<LoginState> emit) async {
-    var result = await LoginService().signUpWithGoogle();
-    log(result.toString());
-    if (!result.$2) {
-      sellerModel = await SellerDatabaseServices().getSellerData(result.$1!);
-      emit(LoginNavigateToHomeState(sellerModel: sellerModel!));
-    } else {
-      sellerModel = SellerModel(email: result.$1!, name: '',place: '',creationTime: DateTime.now());
-      emit(LoginNavigateToCompleteProfileState(sellerModel: sellerModel!));
-    }
+    try {
+  var result = await LoginService().signUpWithGoogle();
+  log(result.toString());
+  if (!result.$2) {
+    sellerModel = await SellerDatabaseServices().getSellerData(result.$1!);
+    emit(LoginNavigateToHomeState(sellerModel: sellerModel!));
+  } else {
+    sellerModel = SellerModel(email: result.$1!, name: '',place: '',creationTime: DateTime.now());
+    emit(LoginNavigateToCompleteProfileState(sellerModel: sellerModel!));
+  }
+} on FirebaseException catch (e) {
+ log(e.code);
+}
   }
 
   FutureOr<void> loginForgotPasswordEvent(

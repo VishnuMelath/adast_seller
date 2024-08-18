@@ -7,7 +7,7 @@ import 'package:adast_seller/services/auth.dart';
 import 'package:adast_seller/services/item_database_services.dart';
 import 'package:adast_seller/services/reservation_databaase_services.dart';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 
 part 'splashscreen_event.dart';
 part 'splashscreen_state.dart';
@@ -29,6 +29,10 @@ class SplashscreenBloc extends Bloc<SplashscreenEvent, SplashscreenState> {
         seller = await LoginService().getSeller();
       },
     );
+    if(kIsWeb)
+    {
+       emit(SplashNavigatetoLoginState());
+    }
     if (seller == null) {
       emit(SplashNavigatetoLoginState());
     } else {  
