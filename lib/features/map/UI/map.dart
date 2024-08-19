@@ -178,7 +178,7 @@ class _MapScreenState extends State<MapScreen> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          'Complete the profile by adding location of your shop in the map and add the necessory info.',
+                          'Tap on the map to add location of your shop in the map and add the necessory info.',
                           style: whiteTextStyle,
                         ),
                       ),
