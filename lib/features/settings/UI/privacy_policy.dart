@@ -110,10 +110,7 @@ class PrivacyPolicyPage extends StatelessWidget {
               const Text('Email: vishnumeloth13@gmail.com'),
               const Text('Phone: 9605391056'),
               const SizedBox(height: 16),
-              const Text(
-                'Effective Date: 13/08/2024',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
+              
               const SizedBox(height: 16),
               const Text(
                 'By using Adast Sellers, you acknowledge that you have read and understood this Privacy Policy and agree to its terms.',
